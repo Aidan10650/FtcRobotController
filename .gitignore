@@ -85,3 +85,5 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+/gradle/wrapper/dists/gradle-6.1.1-all.zip
+/gradle/wrapper/store/gradle-6.1.1-all.zip
