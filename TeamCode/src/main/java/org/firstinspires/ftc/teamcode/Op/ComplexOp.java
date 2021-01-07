@@ -1,21 +1,31 @@
 package org.firstinspires.ftc.teamcode.Op;
 
+import com.qualcomm.robotcore.hardware.*;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Calculators.OtherCalcs;
-import org.firstinspires.ftc.teamcode.Hardware.SkystoneRobotName_Box.RobotMap;
+//import org.firstinspires.ftc.teamcode.Hardware.Sensors.Camera;
+import org.firstinspires.ftc.teamcode.Hardware.SkystoneRobotName_Box.SkystoneRobotMap;
+import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.*;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Calculators.Interfaces;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.CompleteController;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumDrive;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.*;
 
 public abstract class ComplexOp extends LinearOpMode{
 
     private MecanumDrive mecanumDrive;
+
+    int last = 0;
 
     public void ComplexMove(Interfaces.SpeedCalc speedCalc,
                             Interfaces.MotionCalc motionCalc,
@@ -42,12 +52,12 @@ public abstract class ComplexOp extends LinearOpMode{
             if(ds != null) {
                 InetAddress ip = null;
                 try {
-                    //ip = InetAddress.getByName("192.168.42.131");
-                    ip = InetAddress.getLocalHost();
+                    ip = InetAddress.getByName("192.168.43.255");
+                    //ip = InetAddress.getLocalHost();
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                String str = String.valueOf(Math.round(d.wPos.x))+":"+String.valueOf(Math.round(d.wPos.y))+":"+String.valueOf(Math.round(d.heading));
+                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(d.robot.shooter.getPower())+":"+String.valueOf(d.robot.shooter.getCurrentPosition());
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);
@@ -60,8 +70,9 @@ public abstract class ComplexOp extends LinearOpMode{
             //_______________________
 
 
-            d.heading = d.robot.gyro.getHeading();
+            Orientation orientation = d.robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
+            d.heading = orientation.thirdAngle+d.startData.StartHeading;
             Vector2D encoderPre = d.encoderPos.clone();
             d.encoderPos = mecanumDrive.getVectorDistanceCm();
             Vector2D deltaMove = d.encoderPos.getSubtracted(encoderPre);
@@ -71,7 +82,7 @@ public abstract class ComplexOp extends LinearOpMode{
 
             d.currentCommand.orientationSpeed = orientationCalc.CalcOrientation(d);
             d.currentCommand.motionSpeed = motionCalc.CalcMotion(d);
-            d.currentCommand.motionSpeed.rotateBy(Math.toRadians(d.heading));
+            d.currentCommand.motionSpeed.rotateBy(Math.toRadians(-d.heading));
             d.currentCommand.speed = speedCalc.CalcSpeed(d);
 
             for (Interfaces.OtherCalc calc : otherCalc) calc.CalcOther(d);
@@ -80,11 +91,53 @@ public abstract class ComplexOp extends LinearOpMode{
 
             //could add specific telemetry data to show through an implementation of complexOp
 
-            telemetry.addData("Position: ("+String.valueOf(Math.round(d.wPos.x))+", "+String.valueOf(Math.round(d.wPos.y))+")", "\n"+d.field);
-            telemetry.addData("heading", Math.round(d.heading*10)/10.0);
+            //telemetry.addData("Position: ("+String.valueOf(Math.round(d.wPos.x))+", "+String.valueOf(Math.round(d.wPos.y))+")", "\n"+d.field);
+            //telemetry.addData("heading", Math.round(d.heading*10)/10.0);
             //telemetry.addData("position", " "+String.valueOf(Math.round(d.wPos.x))+", "+String.valueOf(Math.round(d.wPos.y)));
+            /*
+            int z = 0;
+            short[]ss = d.robot.vexCrap.readAll();
+            for(short s: ss){
+                telemetry.addData("Vex Encoder Register: " + z + ": ", s);
+                z++;
+            }
+            */
+//            telemetry.addData("manip lx",d.manip.ls().x);
+//            telemetry.addData("manip ly", d.manip.ls().y);
+//            telemetry.addData("manip rx", d.manip.rs().x);
+//            telemetry.addData("manip ry", d.manip.rs().y);
+//            telemetry.addData("x pos", d.wPos.x);
+//            telemetry.addData("y pos", d.wPos.y);
+
+
+//            telemetry.addData("heading", d.heading);
+//            telemetry.addData("bucket", d.robot.bucket.getPosition());
+//            telemetry.addData("", d.robot.shooter.getCurrentPosition() - last);
+//            last = d.robot.shooter.getCurrentPosition();
+
+//            telemetry.addData("l button", d.manip.l());
+
+//            DcMotorControllerEx motorControllerEx = (DcMotorControllerEx)d.robot.shooter.getController();
+//            int motorIndex = ((DcMotorEx)d.robot.shooter).getPortNumber();
+//            telemetry.addData("P", motorControllerEx.);
+            //PIDCoefficients pidNew = new PIDCoefficients(NEW_P, NEW_I, NEW_D);
+            //motorControllerEx.setPIDCoefficients(motorIndex, DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+//            DcMotorEx motorExLeft = (DcMotorEx)hardwareMap.get(DcMotor.class, "shooter");
+//            PIDCoefficients pidModified = motorExLeft.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+//            telemetry.addData("P", pidModified.p);
+//            telemetry.addData("I", pidModified.i);
+//            telemetry.addData("D", pidModified.d);
+//            telemetry.addData(d.robot.shooter.)
+//            telemetry.addData("bucket pos", d.robot.bucket.getPosition());
+//            telemetry.addData("pid orig p", pidOrig.p);
+//            telemetry.addData("pid orig i", pidOrig.i);
+//            telemetry.addData("pid orig d", pidOrig.d);
+//            telemetry.addData("Yeetor speed", d.manip.lt());
             telemetry.update();
 
+            //Camera camera = new Camera(hardwareMap,false);
+            //camera.cycle();
+            //d.robot.yeetCam.cycle();
 
             mecanumDrive.driveMecanum(
                     d.currentCommand.motionSpeed,
@@ -134,6 +187,7 @@ public abstract class ComplexOp extends LinearOpMode{
         telemetry.addData("Initializing", "Started");
         telemetry.update();
 
+
         d.isFinished = false;
         d.isStarted = false;
 
@@ -142,8 +196,18 @@ public abstract class ComplexOp extends LinearOpMode{
 
         d.driver.CompleteController(gamepad1);
         d.manip.CompleteController(gamepad2);
-
+        //
+        //
+        //try {
         initHardware(hardwareMap);
+        //} catch (Exception e){
+        //    StringWriter sw = new StringWriter();
+        //    PrintWriter pw = new PrintWriter(sw);
+        //    e.printStackTrace(pw);
+        //    telemetry.addData(sw.toString(), "this");
+        //}
+        //
+        //
 
         //START POSITION
         if (d.startData == null) {
@@ -162,9 +226,6 @@ public abstract class ComplexOp extends LinearOpMode{
         waitForStart();
 
         d.isStarted = true;
-
-        telemetry.addData("Body", "Started");
-        telemetry.update();
 
         //BODY
         try {

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftc10650.Tele;
+package org.firstinspires.ftc.teamcode.ftc10650.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -8,8 +8,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
-@TeleOp(name="Camera Testing")
-public class CameraTest extends LinearOpMode {
+@TeleOp(name="Donut Den Drive")
+public class DonutDetectAuto extends LinearOpMode {
     OpenCvInternalCamera phoneCam;
     StackDeterminationPipeline pipeline;
 
@@ -44,14 +44,13 @@ public class CameraTest extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive())
-        {
-            telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.addData("Height Widht Ratio", pipeline.getHeightWidthRatio());
-            telemetry.update();
 
-            // Don't burn CPU cycles busy-looping in this sample
-            sleep(50);
+        telemetry.addData("Analysis", pipeline.getAnalysis());
+        telemetry.addData("Height Widht Ratio", pipeline.getHeightWidthRatio());
+        telemetry.update();
+
+        while(opModeIsActive()){
+
         }
     }
 }

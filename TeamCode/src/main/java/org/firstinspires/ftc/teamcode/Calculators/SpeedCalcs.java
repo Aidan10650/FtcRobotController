@@ -62,7 +62,7 @@ public class SpeedCalcs {
                 }
                 if(currIndex < progressSpeed.length){
                     ProgressSpeed current = progressSpeed[currIndex];
-    //                for(int i=0;i<progressSpeed .length;i++){
+                    //                for(int i=0;i<progressSpeed .length;i++){
 
                     switch(current.timeProg){
                         case PROG:
@@ -78,11 +78,11 @@ public class SpeedCalcs {
                             nextSpeed = (timeUtil.timePassed()>=current.atDimension);
                             break;
                     }
-    //                        double thisProgress = (d.progress-preProg)/(progressSpeed.atDimension-preProg);
-    //                        desiredSpeed = d.previousSpeed+((progressSpeed.rampToSpeed-d.previousSpeed)*thisProgress);
-    //                        if(desiredSpeed<0.1){
-    //                            desiredSpeed = 0.1;
-    //                        }
+                    //                        double thisProgress = (d.progress-preProg)/(progressSpeed.atDimension-preProg);
+                    //                        desiredSpeed = d.previousSpeed+((progressSpeed.rampToSpeed-d.previousSpeed)*thisProgress);
+                    //                        if(desiredSpeed<0.1){
+                    //                            desiredSpeed = 0.1;
+                    //                        }
                     if(nextSpeed){
                         startingSpeed = desiredSpeed;
                         startingProg = d.progress;

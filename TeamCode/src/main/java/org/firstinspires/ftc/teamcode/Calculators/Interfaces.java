@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
 
-import org.firstinspires.ftc.teamcode.Hardware.SkystoneRobotName_Box.RobotMap;
+import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.CompleteController;
 
@@ -53,6 +53,7 @@ public class Interfaces {
         public RobotMap robot = null;
 
 
+
         /**
          * the reason the gyro is not passed as a gyro into move data and instead as a heading is so that all
          * code uses the same heading every loop
@@ -92,7 +93,7 @@ public class Interfaces {
         public int currentSpin = 0;
         public boolean foundSpin = false;
         public double orientationError = 0;
-        public double orientationP = 0.5;
+        public double orientationP = 0.005;
         public double orientationI;
         public double orientationD;
 
@@ -121,6 +122,9 @@ public class Interfaces {
         public double debugData1 = 0;
         public double debugData2 = 0;
         public boolean debugDataBool;
+
+        static double MAXBUCKET = 1.0;
+        static double MINBUCKET = 0.5;
     }
 
 

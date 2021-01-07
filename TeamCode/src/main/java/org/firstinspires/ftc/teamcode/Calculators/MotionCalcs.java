@@ -138,7 +138,7 @@ public class MotionCalcs { //This will always output a power on the x axis of th
                     SegmentData candidate = segmentDataArray.get(i);
 
                     if (worldDist >= candidate.worldStartDist &&
-                        worldDist <= candidate.worldEndDist)
+                            worldDist <= candidate.worldEndDist)
                     {
                         return segmentDataArray.get(i);
                     }

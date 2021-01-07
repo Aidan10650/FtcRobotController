@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.matrices.GeneralMatrixF;
 import org.firstinspires.ftc.robotcore.external.matrices.MatrixF;
-import org.firstinspires.ftc.teamcode.Hardware.SkystoneRobotName_Box.RobotMap;
+import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
 
 public class MecanumDrive {

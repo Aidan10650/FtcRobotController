@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
+import org.firstinspires.ftc.teamcode.Utilities.PID;
+import org.firstinspires.ftc.teamcode.Utilities.TimeUtil;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
 
 public class OrientationCalcs {
@@ -115,6 +117,23 @@ public class OrientationCalcs {
     }
 
 
+
+    public static Interfaces.OrientationCalc waitToTurn(){
+        return new Interfaces.OrientationCalc() {
+            TimeUtil time = new TimeUtil();
+            @Override
+            public double CalcOrientation(Interfaces.MoveData d) {
+                time.startTimer(15000);
+                if(time.timerDone()) return (0-d.heading)*d.orientationP;
+                else return 0;
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
     /**
      * spinToProgress
      * @param spinData
@@ -154,6 +173,47 @@ public class OrientationCalcs {
         };
     }
 
+    public static Interfaces.OrientationCalc lookToOrientation(final double orientation){
+        return new Interfaces.OrientationCalc() {
+            @Override
+            public double CalcOrientation(Interfaces.MoveData d) {
+                return -(orientation-d.heading)*d.orientationP;
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OrientationCalc lookToOrientationUnderJoystick(final double orientation){
+        final Interfaces.OrientationCalc lookOrient = lookToOrientation(orientation);
+        final Interfaces.OrientationCalc lookJoystick = turnWithJoystick();
+
+        return new Interfaces.OrientationCalc() {
+            boolean sb = false;
+            boolean ub = true;
+            @Override
+            public double CalcOrientation(Interfaces.MoveData d) {
+                if(!d.driver.b()) ub = true;
+                if(d.driver.b()&&ub){sb=!sb; ub=false;}
+                d.debugDataBool = sb;
+                if(sb) {
+                    return lookOrient.CalcOrientation(d);
+                }
+                else {
+                    return lookJoystick.CalcOrientation(d);
+                }
+
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
 
     public static Interfaces.OrientationCalc lookToPoint(final lookProgress... point){
         return new Interfaces.OrientationCalc() {
@@ -194,7 +254,7 @@ public class OrientationCalcs {
                 } else {
                     doLook = false;
                     if (d.driver.getButton(button)) doLook = true;
-                   return joystick.CalcOrientation(d);
+                    return joystick.CalcOrientation(d);
                 }
             }
 

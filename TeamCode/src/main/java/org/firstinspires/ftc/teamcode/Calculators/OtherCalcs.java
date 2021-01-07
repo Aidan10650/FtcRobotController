@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utilities.*;
 
@@ -21,7 +22,7 @@ public class OtherCalcs {
     }
 
 
-    public static Interfaces.OtherCalc TeleServos(){
+    public static Interfaces.OtherCalc Bucket(){
 
         return new Interfaces.OtherCalc(){
             double myProgress;
@@ -32,8 +33,225 @@ public class OtherCalcs {
 
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-//                d.robot.hooker.setPosition(d.manip.b() ? 0.5 : d.manip.u() ? 1.0 : d.manip.rt()>0.9 ? 0.25 : 0);
-                d.robot.hooker.setPosition((d.manip.rs().x+1)/2);
+                final double SHOOTPOSITION = 0.27;
+                //d.robot.bucket.setPosition((d.MAXBUCKET-d.MINBUCKET)*((d.manip.ls().y+1.0)/2.0)+d.MINBUCKET);
+                if(d.manip.rb()) d.robot.bucket.setPosition(SHOOTPOSITION);
+                else d.robot.bucket.setPosition(0.68);
+
+                //else d.robot.bucket.setPosition((d.MAXBUCKET-d.MINBUCKET)*(1-d.manip.rt()) + d.MINBUCKET);
+
+                if(d.manip.b()) {
+                    d.robot.pusher.setPosition(1.0);
+                } else {
+                    d.robot.pusher.setPosition(0.4);
+                }
+            }
+        };
+    }
+    public static Interfaces.OtherCalc Shoot(){
+        return new Interfaces.OtherCalc() {
+            //double myProg = 0.0;
+            boolean prog = false;
+            TimeUtil time = new TimeUtil();
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                if(!prog) {
+                    d.robot.bucket.setPosition(0.27);
+                    time.startTimer(1000);
+                    while (!time.timerDone()) ;
+                    d.robot.shooter.setPower(0.547);
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) ;
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(1.0);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(0.4);
+                        d.robot.bucket.setPosition(0.40);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while(!time.timerDone()){
+                        d.robot.bucket.setPosition(0.27);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(1.0);
+                    }
+
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(0.4);
+                        d.robot.bucket.setPosition(0.40);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while(!time.timerDone()){
+                        d.robot.bucket.setPosition(0.27);
+                    }
+
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(1.0);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(0.4);
+                        d.robot.bucket.setPosition(0.40);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while(!time.timerDone()){
+                        d.robot.bucket.setPosition(0.27);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(1.0);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(0.4);
+                        d.robot.bucket.setPosition(0.40);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while(!time.timerDone()){
+                        d.robot.bucket.setPosition(0.27);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(1.0);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while (!time.timerDone()) {
+                        d.robot.pusher.setPosition(0.4);
+                        d.robot.bucket.setPosition(0.40);
+                    }
+                    time.resetTimer();
+                    time.startTimer(1000);
+                    while(!time.timerDone()){
+                        d.robot.bucket.setPosition(0.27);
+                    }
+                    d.robot.shooter.setPower(0.0);
+                    prog = true;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+    public static Interfaces.OtherCalc Intake(){
+        return new Interfaces.OtherCalc() {
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                if(d.manip.a()) d.robot.intake.setPower(0.225);
+                else if(d.manip.y()) d.robot.intake.setPower(-0.75);
+                else d.robot.intake.setPower(0.0);
+
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc PIDTest(){
+        return new Interfaces.OtherCalc() {
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                if(d.manip.u()){
+
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc Lift(){
+        return new Interfaces.OtherCalc() {
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                d.robot.vex.setPower(d.manip.ls().y);
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc Yeetor(){
+        return new Interfaces.OtherCalc() {
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                if(d.manip.lb()) d.robot.shooter.setPower(0.5);
+                else d.robot.shooter.setPower(d.manip.lt());
+
+            }
+
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc Wobble(){
+        return new Interfaces.OtherCalc() {
+            boolean dx = true;
+            boolean grab = false;
+            short i = 0;
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                if(dx&&d.manip.x()){
+                    dx=false;
+                    i++;
+                }
+                if(!d.manip.x()) dx = true;
+                if(i == 0){
+                    d.robot.wobble.setTargetPosition(0);
+                } else if (i == 1) {
+                    d.robot.wobble.setTargetPosition(140);
+                } else if (i == 2){
+                    d.robot.wobble.setTargetPosition(0);
+                } else {
+                    d.robot.wobble.setTargetPosition(70);
+                }
+                i%=4;
+                if(d.manip.l()) grab = true;
+                if(d.manip.r()) grab = false;
+                if(grab) d.robot.graber.setPosition(0);
+                else d.robot.graber.setPosition(1);
+                //                d.robot.wobble.setPower(d.manip.rs().x/20);
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
             }
         };
     }
@@ -67,7 +285,7 @@ public class OtherCalcs {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
                 if(d.progress > 0.95){
-                    d.robot.hooker.setPosition(0.5);
+                    //d.robot.hooker.setPosition(0.5);
                 }
             }
         };
@@ -90,9 +308,9 @@ public class OtherCalcs {
             @Override
             public void CalcOther(Interfaces.MoveData d){
                 if(firstLoop){
-                  endGameTime.startTimer(120000);
-                  matchTime.startTimer(150000);
-                  firstLoop=false;
+                    endGameTime.startTimer(120000);
+                    matchTime.startTimer(150000);
+                    firstLoop=false;
                 }
 
                 d.timeRemainingUntilEndgame = endGameTime.timeRemaining();
@@ -213,48 +431,48 @@ public class OtherCalcs {
 
             @Override
             public void CalcOther(Interfaces.MoveData d){
-                switch(side) {
-                    case FRONT:
-                        if (startStopDist < d.robot.frontRange.getDistance(DistanceUnit.CM)) {
-                            myProgress = 0;
-                        } else if (startStopDist > d.robot.frontRange.getDistance(DistanceUnit.CM)) {
-                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.frontRange.getDistance(DistanceUnit.CM))
-                                    / (startStopDist - stopStopDist));
-                        } else if (stopStopDist > d.robot.frontRange.getDistance(DistanceUnit.CM)) {
-                            myProgress = endProgress;
-                        }
-                        break;
-                    case BACK:
-                        if (startStopDist < d.robot.backRange.getDistance(DistanceUnit.CM)){
-                            myProgress = 0;
-                        } else if (startStopDist > d.robot.backRange.getDistance(DistanceUnit.CM)) {
-                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.backRange.getDistance(DistanceUnit.CM))
-                                    / (startStopDist - stopStopDist));
-                        } else if (stopStopDist > d.robot.backRange.getDistance(DistanceUnit.CM)) {
-                            myProgress = endProgress;
-                        }
-                        break;
-                    case RIGHT:
-//                        if (startStopDist < d.robot.rightRange.getDistance(DistanceUnit.CM)) {
+//                switch(side) {
+//                    case FRONT:
+//                        if (startStopDist < d.robot.frontRange.getDistance(DistanceUnit.CM)) {
 //                            myProgress = 0;
-//                        } else if (startStopDist > d.robot.rightRange.getDistance(DistanceUnit.CM)) {
-//                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.rightRange.getDistance(DistanceUnit.CM))
+//                        } else if (startStopDist > d.robot.frontRange.getDistance(DistanceUnit.CM)) {
+//                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.frontRange.getDistance(DistanceUnit.CM))
 //                                    / (startStopDist - stopStopDist));
-//                        } else if (stopStopDist > d.robot.rightRange.getDistance(DistanceUnit.CM)) {
+//                        } else if (stopStopDist > d.robot.frontRange.getDistance(DistanceUnit.CM)) {
 //                            myProgress = endProgress;
 //                        }
-                        break;
-                    case LEFT:
-//                        if (startStopDist < d.robot.leftRange.getDistance(DistanceUnit.CM)) {
+//                        break;
+//                    case BACK:
+//                        if (startStopDist < d.robot.backRange.getDistance(DistanceUnit.CM)){
 //                            myProgress = 0;
-//                        } else if (startStopDist > d.robot.leftRange.getDistance(DistanceUnit.CM)) {
-//                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.leftRange.getDistance(DistanceUnit.CM))
+//                        } else if (startStopDist > d.robot.backRange.getDistance(DistanceUnit.CM)) {
+//                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.backRange.getDistance(DistanceUnit.CM))
 //                                    / (startStopDist - stopStopDist));
-//                        } else if (stopStopDist > d.robot.leftRange.getDistance(DistanceUnit.CM)) {
+//                        } else if (stopStopDist > d.robot.backRange.getDistance(DistanceUnit.CM)) {
 //                            myProgress = endProgress;
 //                        }
-                        break;
-                }
+//                        break;
+//                    case RIGHT:
+////                        if (startStopDist < d.robot.rightRange.getDistance(DistanceUnit.CM)) {
+////                            myProgress = 0;
+////                        } else if (startStopDist > d.robot.rightRange.getDistance(DistanceUnit.CM)) {
+////                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.rightRange.getDistance(DistanceUnit.CM))
+////                                    / (startStopDist - stopStopDist));
+////                        } else if (stopStopDist > d.robot.rightRange.getDistance(DistanceUnit.CM)) {
+////                            myProgress = endProgress;
+////                        }
+//                        break;
+//                    case LEFT:
+////                        if (startStopDist < d.robot.leftRange.getDistance(DistanceUnit.CM)) {
+////                            myProgress = 0;
+////                        } else if (startStopDist > d.robot.leftRange.getDistance(DistanceUnit.CM)) {
+////                            myProgress = startProgress + (endProgress - startProgress) * ((startStopDist - d.robot.leftRange.getDistance(DistanceUnit.CM))
+////                                    / (startStopDist - stopStopDist));
+////                        } else if (stopStopDist > d.robot.leftRange.getDistance(DistanceUnit.CM)) {
+////                            myProgress = endProgress;
+////                        }
+//                        break;
+//                }
             }
         };
     }
@@ -289,9 +507,9 @@ public class OtherCalcs {
 
 
     public enum Controller{
-    DRIVER,
-    MANIP
-}
+        DRIVER,
+        MANIP
+    }
 
     public enum Side {
         FRONT,
