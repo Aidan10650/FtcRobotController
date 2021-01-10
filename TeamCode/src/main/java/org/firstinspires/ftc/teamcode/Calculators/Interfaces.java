@@ -125,6 +125,8 @@ public class Interfaces {
 
         static double MAXBUCKET = 1.0;
         static double MINBUCKET = 0.5;
+
+        public static int stackHeight = -1;
     }
 
 

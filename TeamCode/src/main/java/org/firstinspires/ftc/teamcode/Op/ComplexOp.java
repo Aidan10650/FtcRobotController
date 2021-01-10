@@ -80,10 +80,12 @@ public abstract class ComplexOp extends LinearOpMode{
             d.preWPos.set(d.wPos);
             d.wPos.add(deltaMove);
 
-            d.currentCommand.orientationSpeed = orientationCalc.CalcOrientation(d);
-            d.currentCommand.motionSpeed = motionCalc.CalcMotion(d);
-            d.currentCommand.motionSpeed.rotateBy(Math.toRadians(-d.heading));
-            d.currentCommand.speed = speedCalc.CalcSpeed(d);
+            if(orientationCalc != null) d.currentCommand.orientationSpeed = orientationCalc.CalcOrientation(d);
+            if(motionCalc != null) {
+                d.currentCommand.motionSpeed = motionCalc.CalcMotion(d);
+                d.currentCommand.motionSpeed.rotateBy(Math.toRadians(-d.heading));
+            }
+            if(speedCalc != null) d.currentCommand.speed = speedCalc.CalcSpeed(d);
 
             for (Interfaces.OtherCalc calc : otherCalc) calc.CalcOther(d);
 
@@ -106,8 +108,8 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("manip ly", d.manip.ls().y);
 //            telemetry.addData("manip rx", d.manip.rs().x);
 //            telemetry.addData("manip ry", d.manip.rs().y);
-//            telemetry.addData("x pos", d.wPos.x);
-//            telemetry.addData("y pos", d.wPos.y);
+            telemetry.addData("x pos", d.wPos.x);
+            telemetry.addData("y pos", d.wPos.y);
 
 
 //            telemetry.addData("heading", d.heading);
@@ -133,6 +135,9 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("pid orig i", pidOrig.i);
 //            telemetry.addData("pid orig d", pidOrig.d);
 //            telemetry.addData("Yeetor speed", d.manip.lt());
+//            telemetry.addData("Stack Height", d.stackHeight);
+//            telemetry.addData("Motor Velocity", d.robot.shooterEx.getVelocity());
+//            telemetry.addData("fright Velocity", d.robot.frightEx.getVelocity());
             telemetry.update();
 
             //Camera camera = new Camera(hardwareMap,false);
@@ -145,10 +150,11 @@ public abstract class ComplexOp extends LinearOpMode{
                     d.currentCommand.orientationSpeed);
 
 
+
             d.progress = MathUtil.findMaxList(
-                    motionCalc.myProgress(d),
-                    orientationCalc.myProgress(d),
-                    speedCalc.myProgress(d));
+                    motionCalc == null ? 0 : motionCalc.myProgress(d),
+                    orientationCalc == null ? 0 : orientationCalc.myProgress(d),
+                    speedCalc == null ? 0 : speedCalc.myProgress(d));
 
 
             for (Interfaces.OtherCalc calc : otherCalc) d.progress = Math.max(d.progress,calc.myProgress(d));

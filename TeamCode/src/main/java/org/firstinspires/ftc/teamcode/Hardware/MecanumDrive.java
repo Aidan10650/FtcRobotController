@@ -35,6 +35,20 @@ public class MecanumDrive {
         conversion = conversion.inverted();
     }
 
+    private void setVelocities(double maxVeloicty, double flSpeed, double frSpeed, double blSpeed, double brSpeed) {
+        double largest = maxSpeed;
+        largest = Math.max(largest, Math.abs(flSpeed));
+        largest = Math.max(largest, Math.abs(frSpeed));
+        largest = Math.max(largest, Math.abs(blSpeed));
+        largest = Math.max(largest, Math.abs(brSpeed));
+
+        robot.fleftEx.setVelocity(maxVeloicty * flSpeed / largest);
+        robot.frightEx.setVelocity(maxVeloicty * frSpeed / largest);
+        robot.bleftEx.setVelocity(maxVeloicty * blSpeed / largest);
+        robot.brightEx.setVelocity(maxVeloicty * brSpeed / largest);
+    }
+
+
     private void setSpeeds(double flSpeed, double frSpeed, double blSpeed, double brSpeed) {
         double largest = maxSpeed;
         largest = Math.max(largest, Math.abs(flSpeed));
@@ -56,7 +70,7 @@ public class MecanumDrive {
         double bleftSpeed  = speed*(motionVector.y - motionVector.x) + rotate;
         double brightSpeed = speed*(motionVector.y + motionVector.x) - rotate;
 
-        setSpeeds(fleftSpeed, frightSpeed, bleftSpeed, brightSpeed);
+        setVelocities(2500, fleftSpeed, frightSpeed, bleftSpeed, brightSpeed);
     }
 
     public Vector2D getVectorDistanceCm(){

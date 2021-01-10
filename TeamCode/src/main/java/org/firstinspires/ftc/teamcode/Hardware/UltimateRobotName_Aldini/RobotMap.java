@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.vuforia.Vuforia;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.teamcode.Hardware.Sensors.Camera;
@@ -15,6 +16,8 @@ public class RobotMap {
 
     public static DcMotor bright, fright, bleft, fleft, shooter, intake, wobble;
 
+    public static DcMotorEx brightEx, frightEx, bleftEx, fleftEx, shooterEx, wobbleEx;
+
     public static Servo bucket, pusher, graber;
 
     public static CRServo vex;
@@ -25,11 +28,13 @@ public class RobotMap {
 
     public static OpenCvInternalCamera yeetCam;
 
+    public static HardwareMap hw;
+
     //public static ModernRoboticsI2cRangeSensor frontRange, backRange;
 
     public RobotMap(HardwareMap hw, double startHeading) {
 
-
+        this.hw = hw;
         /**
          * @see <a href="https://ftc-tricks.com/dc-motors/"</a>
          * @see DcMotor.RunMode.RUN_USING_ENCODER this implements a PID for all of the motors
@@ -40,20 +45,31 @@ public class RobotMap {
 
         bright = hw.get(DcMotor.class, "bright");
         //RUN_USING_ENCODER gives each motor a PID and ensures the motors run at the same speed every time.
+        bright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bright.setDirection(DcMotorSimple.Direction.REVERSE);
+        bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        brightEx = (DcMotorEx) bright;
+
 
         fright = hw.get(DcMotor.class, "fright");
+        fright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fright.setDirection(DcMotorSimple.Direction.REVERSE);
+        fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frightEx = (DcMotorEx) fright;
 
         bleft = hw.get(DcMotor.class, "bleft");
+        bleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bleftEx = (DcMotorEx) bleft;
 
         fleft = hw.get(DcMotor.class, "fleft");
+        fleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fleftEx = (DcMotorEx) fleft;
 
         intake = hw.get(DcMotor.class, "intake");
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -65,15 +81,16 @@ public class RobotMap {
         final double NEW_P_YEET = 5.0345;
         final double NEW_I_YEET = 0.3631;
         final double NEW_D_YEET = 0.0000;
-        DcMotorControllerEx motorControllerExYeet = (DcMotorControllerEx)shooter.getController();
-        int motorIndexYeet = ((DcMotorEx)shooter).getPortNumber();
-        PIDCoefficients pidNewYeet = new PIDCoefficients(NEW_P_YEET, NEW_I_YEET, NEW_D_YEET);
-        motorControllerExYeet.setPIDCoefficients(motorIndexYeet, DcMotor.RunMode.RUN_USING_ENCODER, pidNewYeet);
+        shooterEx  = (DcMotorEx)shooter;
+//        int motorIndexYeet = ((DcMotorEx)shooter).getPortNumber();
+//        PIDCoefficients pidNewYeet = new PIDCoefficients(NEW_P_YEET, NEW_I_YEET, NEW_D_YEET);
+//        shooterEx.setPIDCoefficients(motorIndexYeet, DcMotor.RunMode.RUN_USING_ENCODER, pidNewYeet);
 
         wobble = hw.get(DcMotor.class, "wobble");
         wobble.setTargetPosition(0);
         wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        wobble.setPower(0.3);
+        wobbleEx = (DcMotorEx) wobble;
+        wobbleEx.setVelocity(100);
         final double NEW_P = 12;
         final double NEW_I = 6;
         final double NEW_D = 0.2;
@@ -81,6 +98,7 @@ public class RobotMap {
         int motorIndex = ((DcMotorEx)wobble).getPortNumber();
         PIDCoefficients pidNew = new PIDCoefficients(NEW_P, NEW_I, NEW_D);
         motorControllerEx.setPIDCoefficients(motorIndex, DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+
 
 
         /**
@@ -120,9 +138,9 @@ public class RobotMap {
          */
         //frontRange = hw.get(ModernRoboticsI2cRangeSensor.class, "frontRange");
         //backRange  = hw.get(ModernRoboticsI2cRangeSensor.class, "backRange");
-
         int cameraMonitorViewId = hw.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hw.appContext.getPackageName());
         yeetCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+
       //  yeetCam.initVuforia(hw, true);
         //yeetCam = hw.get(WebcamName.class, "yeetCam");
 

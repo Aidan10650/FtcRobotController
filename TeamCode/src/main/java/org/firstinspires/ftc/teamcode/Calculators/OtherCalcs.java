@@ -1,10 +1,20 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
+import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.*;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class OtherCalcs {
+
     public static Interfaces.OtherCalc whileOpMode(){
 
         return new Interfaces.OtherCalc(){
@@ -43,11 +53,12 @@ public class OtherCalcs {
                 if(d.manip.b()) {
                     d.robot.pusher.setPosition(1.0);
                 } else {
-                    d.robot.pusher.setPosition(0.4);
+                    d.robot.pusher.setPosition(0.0);
                 }
             }
         };
     }
+
     public static Interfaces.OtherCalc Shoot(){
         return new Interfaces.OtherCalc() {
             //double myProg = 0.0;
@@ -59,7 +70,8 @@ public class OtherCalcs {
                     d.robot.bucket.setPosition(0.27);
                     time.startTimer(1000);
                     while (!time.timerDone()) ;
-                    d.robot.shooter.setPower(0.547);
+                    d.robot.shooterEx.setVelocity(1880.0);
+                    //d.robot.shooter.setPower(0.547);
                     time.resetTimer();
                     time.startTimer(1000);
                     while (!time.timerDone()) ;
@@ -71,7 +83,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.4);
+                        d.robot.pusher.setPosition(0.0);
                         d.robot.bucket.setPosition(0.40);
                     }
                     time.resetTimer();
@@ -88,7 +100,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.4);
+                        d.robot.pusher.setPosition(0.0);
                         d.robot.bucket.setPosition(0.40);
                     }
                     time.resetTimer();
@@ -105,7 +117,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.4);
+                        d.robot.pusher.setPosition(0.0);
                         d.robot.bucket.setPosition(0.40);
                     }
                     time.resetTimer();
@@ -121,7 +133,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.4);
+                        d.robot.pusher.setPosition(0.0);
                         d.robot.bucket.setPosition(0.40);
                     }
                     time.resetTimer();
@@ -129,30 +141,32 @@ public class OtherCalcs {
                     while(!time.timerDone()){
                         d.robot.bucket.setPosition(0.27);
                     }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(1.0);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.4);
-                        d.robot.bucket.setPosition(0.40);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.27);
-                    }
-                    d.robot.shooter.setPower(0.0);
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(1.0);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(0.0);
+//                        d.robot.bucket.setPosition(0.40);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while(!time.timerDone()){
+//                        d.robot.bucket.setPosition(0.27);
+//                    }
+//                    d.robot.shooter.setPower(0.0);
+                    d.robot.shooterEx.setVelocity(0.0);
                     prog = true;
                 }
             }
 
             @Override
             public double myProgress(Interfaces.MoveData d) {
-                return 0;
+                if(prog)return 1.0;
+                return 0.0;
             }
         };
     }
@@ -207,8 +221,11 @@ public class OtherCalcs {
         return new Interfaces.OtherCalc() {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                if(d.manip.lb()) d.robot.shooter.setPower(0.5);
-                else d.robot.shooter.setPower(d.manip.lt());
+
+//                if(d.manip.lb()) d.robot.shooter.setPower(1.0);
+//                else d.robot.shooter.setPower(d.manip.lt());
+                if(d.manip.lb()) d.robot.shooterEx.setVelocity(1100.0);
+                else d.robot.shooterEx.setVelocity(2200*d.manip.lt());
 
             }
 
@@ -233,20 +250,33 @@ public class OtherCalcs {
                 }
                 if(!d.manip.x()) dx = true;
                 if(i == 0){
-                    d.robot.wobble.setTargetPosition(0);
+                    d.robot.wobble.setTargetPosition(20);
                 } else if (i == 1) {
-                    d.robot.wobble.setTargetPosition(140);
+                    d.robot.wobble.setTargetPosition(160);
                 } else if (i == 2){
-                    d.robot.wobble.setTargetPosition(0);
+                    d.robot.wobble.setTargetPosition(20);
                 } else {
                     d.robot.wobble.setTargetPosition(70);
                 }
                 i%=4;
                 if(d.manip.l()) grab = true;
                 if(d.manip.r()) grab = false;
-                if(grab) d.robot.graber.setPosition(0);
-                else d.robot.graber.setPosition(1);
+                if(grab) d.robot.graber.setPosition(1);
+                else d.robot.graber.setPosition(0);
                 //                d.robot.wobble.setPower(d.manip.rs().x/20);
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+    public static Interfaces.OtherCalc SetWobblePosition(final int wobblePos){
+        return new Interfaces.OtherCalc() {
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                d.robot.wobbleEx.setTargetPosition(wobblePos);
             }
 
             @Override
@@ -291,6 +321,75 @@ public class OtherCalcs {
         };
     }
 
+    public static Interfaces.OtherCalc GetDonutStack(){
+
+
+//                    phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        return new Interfaces.OtherCalc(){
+            final StackDeterminationPipeline pipeline = new StackDeterminationPipeline();
+            double myProgress = 0;
+            boolean first = true;
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return myProgress;
+            }
+
+            @Override
+            public void CalcOther(final Interfaces.MoveData d) {
+                if(first){
+                    d.robot.yeetCam.setPipeline(pipeline);
+                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            d.robot.yeetCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                        }
+                    });
+                    first = false;
+                }
+                d.stackHeight = pipeline.getHeight();
+                myProgress += 0.01;
+            }
+        };
+    }
+//    public static Interfaces.OtherCalc GetDonutStack(final HardwareMap hw, final Telemetry telemetry){
+//
+//            class MyDonutStackOtherCalc implements Interfaces.OtherCalc{
+//                telemetry.addData();
+//
+//                final StackDeterminationPipeline pipeline = new StackDeterminationPipeline();
+//                public MyDonutStackOtherCalc(){
+//                    phoneCam.setPipeline(pipeline);
+//                    phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+//
+//                    phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+//                    {
+//                        @Override
+//                        public void onOpened() {
+//                            phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+//                        }
+//                    });
+//                }
+//
+//
+//                @Override
+//                public void CalcOther(Interfaces.MoveData d) {
+//
+//                    d.stackHeight = pipeline.getHeight();
+//                    // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
+//                    // out when the RC activity is in portrait. We do our actual image processing assuming
+//                    // landscape orientation, though.
+//
+//                }
+//
+//                @Override
+//                public double myProgress(Interfaces.MoveData d) {
+//                    return 0;
+//                }
+//            }
+//            return new MyDonutStackOtherCalc();
+//    }
 
     public static Interfaces.OtherCalc TeleOpMatch(){
 

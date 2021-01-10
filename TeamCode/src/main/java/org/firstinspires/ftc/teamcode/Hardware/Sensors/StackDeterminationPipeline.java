@@ -63,6 +63,7 @@ public class StackDeterminationPipeline extends OpenCvPipeline {
 
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile StackHeight position = StackHeight.STACK_0;
+        private volatile int height = -1;
         private volatile double heightWidthRatio = 0;
         /*
          * This function takes the RGB frame, converts to YCrCb,
@@ -175,9 +176,18 @@ public class StackDeterminationPipeline extends OpenCvPipeline {
             } catch(Exception e){
             }
 
-            if(Double.isNaN(heightWidthRatio)) position = StackHeight.STACK_0;
-            else if(heightWidthRatio>3.0) position = StackHeight.STACK_1;
-            else position = StackHeight.STACK_4;
+            if(Double.isNaN(heightWidthRatio)) {
+                position = StackHeight.STACK_0;
+                height = 0;
+            }
+            else if(heightWidthRatio>3.0) {
+                position = StackHeight.STACK_1;
+                height = 1;
+            }
+            else {
+                position = StackHeight.STACK_4;
+                height = 4;
+            }
 
 
             //hsv.setTo(new Scalar(0,0,0), mask);
@@ -237,6 +247,9 @@ public class StackDeterminationPipeline extends OpenCvPipeline {
         public StackHeight getAnalysis()
         {
             return position;
+        }
+        public int getHeight(){
+            return height;
         }
         public double getHeightWidthRatio() {return heightWidthRatio;}
 }
