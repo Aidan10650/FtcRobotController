@@ -16,7 +16,7 @@ public class RobotMap {
 
     public static DcMotor bright, fright, bleft, fleft, shooter, intake, wobble;
 
-    public static DcMotorEx brightEx, frightEx, bleftEx, fleftEx, shooterEx, wobbleEx;
+    public static DcMotorEx brightEx, frightEx, bleftEx, fleftEx, shooterEx, intakeEx, wobbleEx;
 
     public static Servo bucket, pusher, graber;
 
@@ -74,6 +74,7 @@ public class RobotMap {
         intake = hw.get(DcMotor.class, "intake");
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeEx = (DcMotorEx) intake;
 
         shooter = hw.get(DcMotor.class, "shooter");
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -90,7 +91,7 @@ public class RobotMap {
         wobble.setTargetPosition(0);
         wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wobbleEx = (DcMotorEx) wobble;
-        wobbleEx.setVelocity(100);
+        wobbleEx.setVelocity(400);
         final double NEW_P = 12;
         final double NEW_I = 6;
         final double NEW_D = 0.2;

@@ -34,7 +34,7 @@ public class MotionCalcs { //This will always output a power on the x axis of th
      * joystick is pushed forward the robot goes forward
      * @return A vector on the joysticks coordinates
      */
-    public static Interfaces.MotionCalc FieldCentricJoystick(){
+    public static Interfaces.MotionCalc FieldCentricJoystick(final double driverOffsetDeg){
         return new Interfaces.MotionCalc() {
             @Override
             public double myProgress(Interfaces.MoveData d) {
@@ -43,7 +43,7 @@ public class MotionCalcs { //This will always output a power on the x axis of th
 
             @Override
             public Vector2D CalcMotion(Interfaces.MoveData d) {
-                return d.driver.ls().getNormalizedSquare();
+                return d.driver.ls().getRotatedBy(Math.toRadians(driverOffsetDeg)).getNormalizedSquare();
             }
         };
     }

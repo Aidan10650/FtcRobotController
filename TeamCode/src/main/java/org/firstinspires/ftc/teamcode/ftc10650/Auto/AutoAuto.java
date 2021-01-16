@@ -30,16 +30,110 @@ public class AutoAuto extends ComplexOp {
         ComplexMove(null,null,null, OtherCalcs.Shoot());
 
         if(MoveData.stackHeight == 0){
-            ComplexMove(SpeedCalcs.SetSpeed(0.2), MotionCalcs.PointMotion(5, new Vector2D(0, 5)), OrientationCalcs.holdHeading());
-            ComplexMove(SpeedCalcs.SetSpeed(0.2), MotionCalcs.PointMotion(5, new Vector2D(5, 60)), OrientationCalcs.lookToOrientation(180));
-//            ComplexMove(SpeedCalcs.SetSpeed(0.4), null, OrientationCalcs.lookToOrientation(180));  new Vector2D(5, 60) OrientationCalcs.lookToOrientation(180)
-            ComplexMove(null, null, OrientationCalcs.holdHeading(), OtherCalcs.SetWobblePosition(40));
+
+
+
+            ComplexMove(
+                    SpeedCalcs.SetSpeed(0.2),
+                    MotionCalcs.PointMotion(5, new Vector2D(-10, 5)),
+                    OrientationCalcs.holdHeading());
+
+
+            ComplexMove(
+                    SpeedCalcs.SetSpeed(0.2),
+                    MotionCalcs.PointMotion(5,
+                            new Vector2D(10, 55)),
+                    OrientationCalcs.lookToOrientation(180));
+
+
+            ComplexMove(null, null, null,
+                    OtherCalcs.SetWobblePosition(60),
+                    OtherCalcs.TimeProgress(2000));
+
+
+            ComplexMove(null, null,
+                    OrientationCalcs.lookToOrientation(0),
+                    OtherCalcs.TimeProgress(5000));
+
+
+
         } else if (MoveData.stackHeight == 1) {
-            ComplexMove(SpeedCalcs.SetSpeed(0.4), MotionCalcs.PointMotion(5, new Vector2D(10, 50)), OrientationCalcs.holdHeading());
+
+
+
+            ComplexMove(
+                    SpeedCalcs.SetSpeed(0.2),//.SetProgressSpeed(
+                            //new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            //new SpeedCalcs.ProgressSpeed(0.3, 1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
+                    MotionCalcs.PointMotion(5,
+                            new Vector2D(-30, 30),
+                            new Vector2D(-30, 55),
+                            new Vector2D(-10, 70)),
+                    OrientationCalcs.spinToProgress(
+                            new OrientationCalcs.spinProgress(0, 0.5, 0),
+                            new OrientationCalcs.spinProgress(0.5, 0.9, 180)));
+
+
+            ComplexMove(null, null, null,
+                    OtherCalcs.SetWobblePosition(60),
+                    OtherCalcs.TimeProgress(2000));
+
+
+            ComplexMove(null, null, null,
+                    OtherCalcs.SetWobblePosition(0),
+                    OtherCalcs.TimeProgress(2000));
+
+
+            ComplexMove(
+                    SpeedCalcs.SetSpeed(0.3),
+                    MotionCalcs.PointMotion(5,
+                            new Vector2D(-15, 55)),
+                    OrientationCalcs.holdHeading());
+
+
+            ComplexMove(null, null,
+                    OrientationCalcs.lookToOrientation(0),
+                    OtherCalcs.TimeProgress(5000));
+
+
+
         } else if (MoveData.stackHeight == 4) {
-            ComplexMove(SpeedCalcs.SetSpeed(0.4), MotionCalcs.PointMotion(5, new Vector2D(10, 50)), OrientationCalcs.holdHeading());
+
+
+
+            ComplexMove(
+                    SpeedCalcs.SetSpeed(0.6),//.SetProgressSpeed(
+                    //new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                    //new SpeedCalcs.ProgressSpeed(0.3, 1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
+                    MotionCalcs.PointMotion(5,
+                            new Vector2D(-30, 30),
+                            new Vector2D(-30, 55),
+                            new Vector2D(10, 95)),
+                    OrientationCalcs.spinToProgress(
+                            new OrientationCalcs.spinProgress(0, 0.5, 0),
+                            new OrientationCalcs.spinProgress(0.5, 0.9, 180)));
+            ComplexMove(null, null, null,
+                    OtherCalcs.SetWobblePosition(60),
+                    OtherCalcs.TimeProgress(2000));
+
+
+            ComplexMove(null, null, null,
+                    OtherCalcs.SetWobblePosition(0), OtherCalcs.TimeProgress(2000));
+
+
+            ComplexMove(
+                    SpeedCalcs.SetSpeed(0.6),
+                    MotionCalcs.PointMotion(5,
+                            new Vector2D(-30, 20)),
+                    OrientationCalcs.holdHeading());
+
+
+            ComplexMove(null, null,
+                    OrientationCalcs.lookToOrientation(0),
+                    OtherCalcs.TimeProgress(5000));
+
+
+
         }
-
-
     }
 }

@@ -168,7 +168,7 @@ public class OrientationCalcs {
                 }
 
                 d.foundSpin = false;
-                return -d.orientationError*d.orientationP;
+                return d.orientationError*d.orientationP;
             }
         };
     }

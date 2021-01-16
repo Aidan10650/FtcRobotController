@@ -25,7 +25,7 @@ public abstract class ComplexOp extends LinearOpMode{
 
     private MecanumDrive mecanumDrive;
 
-    int last = 0;
+    double previousHeading = 0;
 
     public void ComplexMove(Interfaces.SpeedCalc speedCalc,
                             Interfaces.MotionCalc motionCalc,
@@ -57,7 +57,7 @@ public abstract class ComplexOp extends LinearOpMode{
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(d.robot.shooter.getPower())+":"+String.valueOf(d.robot.shooter.getCurrentPosition());
+                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(d.robot.shooterEx.getVelocity()+":"+String.valueOf(d.robot.shooter.getCurrentPosition());
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);
@@ -71,8 +71,18 @@ public abstract class ComplexOp extends LinearOpMode{
 
 
             Orientation orientation = d.robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            double heading = orientation.thirdAngle-d.startData.StartHeading;
+            double diffHeading = heading - previousHeading;
+            if(diffHeading > 180.0) {
+                diffHeading -= 360.0;
+            } else if (diffHeading <= -180.0){
+                diffHeading += 360.0;
+            }
+            d.heading += diffHeading;
+            previousHeading = heading;
 
-            d.heading = orientation.thirdAngle+d.startData.StartHeading;
+            telemetry.addData("gryo", orientation.thirdAngle);
+            telemetry.addData("orientation", d.heading);
             Vector2D encoderPre = d.encoderPos.clone();
             d.encoderPos = mecanumDrive.getVectorDistanceCm();
             Vector2D deltaMove = d.encoderPos.getSubtracted(encoderPre);
@@ -165,7 +175,7 @@ public abstract class ComplexOp extends LinearOpMode{
     }
 
     //How data is transferred between calculators and complexOp
-    private Interfaces.MoveData d = new Interfaces.MoveData();//if you delete this the world will end
+    public Interfaces.MoveData d = new Interfaces.MoveData();//if you delete this the world will end
 
     void initHardware(HardwareMap hwMap) {
         d.robot = new RobotMap(hwMap, startPositionAndOrientation().StartHeading);

@@ -31,6 +31,21 @@ public class OtherCalcs {
         };
     }
 
+    public static Interfaces.OtherCalc TimeProgress(final long millis){
+        return new Interfaces.OtherCalc() {
+            long finalMillis = millis + System.currentTimeMillis();
+            long initialMillis = System.currentTimeMillis();
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return (System.currentTimeMillis() - initialMillis)/(finalMillis - initialMillis);
+            }
+        };
+    }
 
     public static Interfaces.OtherCalc Bucket(){
 
@@ -43,7 +58,7 @@ public class OtherCalcs {
 
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                final double SHOOTPOSITION = 0.27;
+                final double SHOOTPOSITION = 0.26;
                 //d.robot.bucket.setPosition((d.MAXBUCKET-d.MINBUCKET)*((d.manip.ls().y+1.0)/2.0)+d.MINBUCKET);
                 if(d.manip.rb()) d.robot.bucket.setPosition(SHOOTPOSITION);
                 else d.robot.bucket.setPosition(0.68);
@@ -67,10 +82,10 @@ public class OtherCalcs {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
                 if(!prog) {
-                    d.robot.bucket.setPosition(0.27);
+                    d.robot.shooterEx.setVelocity(1850.0);//1820
+                    d.robot.bucket.setPosition(0.26);
                     time.startTimer(1000);
                     while (!time.timerDone()) ;
-                    d.robot.shooterEx.setVelocity(1880.0);
                     //d.robot.shooter.setPower(0.547);
                     time.resetTimer();
                     time.startTimer(1000);
@@ -89,7 +104,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.27);
+                        d.robot.bucket.setPosition(0.26);
                     }
                     time.resetTimer();
                     time.startTimer(1000);
@@ -106,7 +121,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.27);
+                        d.robot.bucket.setPosition(0.26);
                     }
 
                     time.resetTimer();
@@ -123,23 +138,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.27);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(1.0);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.0);
-                        d.robot.bucket.setPosition(0.40);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.27);
+                        d.robot.bucket.setPosition(0.26);
                     }
 //                    time.resetTimer();
 //                    time.startTimer(1000);
@@ -155,7 +154,23 @@ public class OtherCalcs {
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.27);
+//                        d.robot.bucket.setPosition(0.26);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(1.0);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(0.0);
+//                        d.robot.bucket.setPosition(0.40);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while(!time.timerDone()){
+//                        d.robot.bucket.setPosition(0.26);
 //                    }
 //                    d.robot.shooter.setPower(0.0);
                     d.robot.shooterEx.setVelocity(0.0);
@@ -174,8 +189,8 @@ public class OtherCalcs {
         return new Interfaces.OtherCalc() {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                if(d.manip.a()) d.robot.intake.setPower(0.225);
-                else if(d.manip.y()) d.robot.intake.setPower(-0.75);
+                if(d.manip.a()) d.robot.intakeEx.setVelocity(600);
+                else if(d.manip.y()) d.robot.intakeEx.setVelocity(-1600);
                 else d.robot.intake.setPower(0.0);
 
             }
@@ -224,7 +239,8 @@ public class OtherCalcs {
 
 //                if(d.manip.lb()) d.robot.shooter.setPower(1.0);
 //                else d.robot.shooter.setPower(d.manip.lt());
-                if(d.manip.lb()) d.robot.shooterEx.setVelocity(1100.0);
+                if(d.manip.ls().y>0.5) d.robot.shooterEx.setVelocity(1750.0);
+                else if (d.manip.ls().y<-0.5) d.robot.shooterEx.setVelocity(1500);
                 else d.robot.shooterEx.setVelocity(2200*d.manip.lt());
 
             }
@@ -250,15 +266,15 @@ public class OtherCalcs {
                 }
                 if(!d.manip.x()) dx = true;
                 if(i == 0){
-                    d.robot.wobble.setTargetPosition(20);
+                    d.robot.wobble.setTargetPosition(0);
                 } else if (i == 1) {
-                    d.robot.wobble.setTargetPosition(160);
-                } else if (i == 2){
-                    d.robot.wobble.setTargetPosition(20);
-                } else {
-                    d.robot.wobble.setTargetPosition(70);
-                }
-                i%=4;
+                    d.robot.wobble.setTargetPosition(170);//160
+                } //else if (i == 2){
+//                    d.robot.wobble.setTargetPosition(0);
+//                } else {
+//                    d.robot.wobble.setTargetPosition(70);
+//                }
+                i%=2;
                 if(d.manip.l()) grab = true;
                 if(d.manip.r()) grab = false;
                 if(grab) d.robot.graber.setPosition(1);
