@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.Calculators;
 import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.CompleteController;
-
+import org.opencv.core.Rect;
 
 
 public class Interfaces {
@@ -93,7 +93,7 @@ public class Interfaces {
         public int currentSpin = 0;
         public boolean foundSpin = false;
         public double orientationError = 0;
-        public double orientationP = 0.01;//0.005
+        public double orientationP = 0.02;//0.01//0.005
         public double orientationI;
         public double orientationD;
 
@@ -126,7 +126,13 @@ public class Interfaces {
         static double MAXBUCKET = 1.0;
         static double MINBUCKET = 0.5;
 
-        public static int stackHeight = -1;
+        public int stackHeight = -1;
+
+        public Vector2D powerCenter = new Vector2D(-1, -1);
+
+        public Vector2D goalBox = new Vector2D(-1, -1);
+
+        public double[] hsvValues = new double[3];
     }
 
 

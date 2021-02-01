@@ -239,6 +239,62 @@ public class OrientationCalcs {
         };
     }
 
+    public static Interfaces.OrientationCalc lookToPower(){
+        return new Interfaces.OrientationCalc() {
+            @Override
+            public double CalcOrientation(Interfaces.MoveData d) {
+                if(d.driver.x()) {
+                    double localHeading = d.heading%360;
+                    if (localHeading > 180.0)
+                    {
+                        localHeading -= 180.0;
+                    }else if(localHeading < -180.0)
+                    {
+                        localHeading += 360.0;
+                    }
+
+                    if(Math.abs(localHeading - 20) < 17){
+                        return  ((720.0 / 2) - d.powerCenter.y) * 0.0012;
+                    } else {
+                        return -(20-localHeading)*d.orientationP;
+                    }
+
+                } else {
+                    return d.driver.rs().x;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OrientationCalc lookToGoal(){
+
+        return new Interfaces.OrientationCalc() {
+            @Override
+            public double CalcOrientation(Interfaces.MoveData d) {
+                double avg = d.goalBox.y;
+                double targAvg = (56+206)/2;
+                double diff = targAvg - avg;
+                return diff*0.003;
+                //                if(Math.abs(diff)<5){
+//                    return 0.0;
+//                } else if (diff>10){
+//                    return -0.25;
+//                } else {
+//                    return 0.25;
+//                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
 
     public static Interfaces.OrientationCalc lookToPointUnderJoystickTurn(final String button, final lookProgress... point){
         final Interfaces.OrientationCalc look = lookToPoint(point);

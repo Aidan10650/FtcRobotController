@@ -1,17 +1,11 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.GoalPositionPipeline;
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.PowerShotPositionPipeline;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
-import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.*;
 import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class OtherCalcs {
 
@@ -58,7 +52,7 @@ public class OtherCalcs {
 
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                final double SHOOTPOSITION = 0.26;
+                final double SHOOTPOSITION = 0.25;
                 //d.robot.bucket.setPosition((d.MAXBUCKET-d.MINBUCKET)*((d.manip.ls().y+1.0)/2.0)+d.MINBUCKET);
                 if(d.manip.rb()) d.robot.bucket.setPosition(SHOOTPOSITION);
                 else d.robot.bucket.setPosition(0.68);
@@ -83,7 +77,7 @@ public class OtherCalcs {
             public void CalcOther(Interfaces.MoveData d) {
                 if(!prog) {
                     d.robot.shooterEx.setVelocity(1850.0);//1820
-                    d.robot.bucket.setPosition(0.26);
+                    d.robot.bucket.setPosition(0.25);
                     time.startTimer(1000);
                     while (!time.timerDone()) ;
                     //d.robot.shooter.setPower(0.547);
@@ -104,7 +98,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.26);
+                        d.robot.bucket.setPosition(0.25);
                     }
                     time.resetTimer();
                     time.startTimer(1000);
@@ -121,7 +115,7 @@ public class OtherCalcs {
                     time.resetTimer();
                     time.startTimer(1000);
                     while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.26);
+                        d.robot.bucket.setPosition(0.25);
                     }
 
                     time.resetTimer();
@@ -135,26 +129,10 @@ public class OtherCalcs {
                         d.robot.pusher.setPosition(0.0);
                         d.robot.bucket.setPosition(0.40);
                     }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.26);
-                    }
-//                    time.resetTimer();
-//                    time.startTimer(1000);
-//                    while (!time.timerDone()) {
-//                        d.robot.pusher.setPosition(1.0);
-//                    }
-//                    time.resetTimer();
-//                    time.startTimer(1000);
-//                    while (!time.timerDone()) {
-//                        d.robot.pusher.setPosition(0.0);
-//                        d.robot.bucket.setPosition(0.40);
-//                    }
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.26);
+//                        d.robot.bucket.setPosition(0.25);
 //                    }
 //                    time.resetTimer();
 //                    time.startTimer(1000);
@@ -170,7 +148,23 @@ public class OtherCalcs {
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.26);
+//                        d.robot.bucket.setPosition(0.25);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(1.0);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(0.0);
+//                        d.robot.bucket.setPosition(0.40);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while(!time.timerDone()){
+//                        d.robot.bucket.setPosition(0.25);
 //                    }
 //                    d.robot.shooter.setPower(0.0);
                     d.robot.shooterEx.setVelocity(0.0);
@@ -277,7 +271,7 @@ public class OtherCalcs {
                 i%=2;
                 if(d.manip.l()) grab = true;
                 if(d.manip.r()) grab = false;
-                if(grab) d.robot.graber.setPosition(1);
+                if(grab) d.robot.graber.setPosition(0.3);
                 else d.robot.graber.setPosition(0);
                 //                d.robot.wobble.setPower(d.manip.rs().x/20);
             }
@@ -366,6 +360,67 @@ public class OtherCalcs {
                 }
                 d.stackHeight = pipeline.getHeight();
                 myProgress += 0.01;
+            }
+        };
+    }
+
+
+    public static Interfaces.OtherCalc GetXOfGoal(){
+        return new Interfaces.OtherCalc() {
+            final GoalPositionPipeline pipeline = new GoalPositionPipeline();
+            boolean first = true;
+            @Override
+            public void CalcOther(final Interfaces.MoveData d) {
+
+
+                d.goalBox = pipeline.getPos();
+                d.hsvValues = pipeline.hsvValues();
+                if(first){
+                    d.robot.yeetCam.setPipeline(pipeline);
+                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            d.robot.yeetCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240
+                        }
+                    });
+                    first = false;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc GetPowerPositions(){
+        return new Interfaces.OtherCalc() {
+            final PowerShotPositionPipeline pipeline = new PowerShotPositionPipeline();
+            boolean first = true;
+            @Override
+            public void CalcOther(final Interfaces.MoveData d) {
+
+                d.powerCenter = pipeline.getPowerCenter();
+                if(first){
+                    d.robot.yeetCam.setPipeline(pipeline);
+                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            d.robot.yeetCam.startStreaming(960, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240
+                        }
+                    });
+                    first = false;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
             }
         };
     }

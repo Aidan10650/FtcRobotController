@@ -57,7 +57,7 @@ public abstract class ComplexOp extends LinearOpMode{
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(d.robot.shooterEx.getVelocity()+":"+String.valueOf(d.robot.shooter.getCurrentPosition());
+                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(d.robot.shooterEx.getVelocity());
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);
@@ -81,12 +81,12 @@ public abstract class ComplexOp extends LinearOpMode{
             d.heading += diffHeading;
             previousHeading = heading;
 
-            telemetry.addData("gryo", orientation.thirdAngle);
-            telemetry.addData("orientation", d.heading);
+//            telemetry.addData("gryo", orientation.thirdAngle);
+//            telemetry.addData("orientation", d.heading);
             Vector2D encoderPre = d.encoderPos.clone();
             d.encoderPos = mecanumDrive.getVectorDistanceCm();
             Vector2D deltaMove = d.encoderPos.getSubtracted(encoderPre);
-            deltaMove.rotateBy(Math.toRadians(-d.heading));
+            deltaMove.rotateBy(Math.toRadians(d.heading));//WAS -d.heading !!!!!!!!!!!!!!!!!!!!
             d.preWPos.set(d.wPos);
             d.wPos.add(deltaMove);
 
@@ -118,9 +118,16 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("manip ly", d.manip.ls().y);
 //            telemetry.addData("manip rx", d.manip.rs().x);
 //            telemetry.addData("manip ry", d.manip.rs().y);
-            telemetry.addData("x pos", d.wPos.x);
-            telemetry.addData("y pos", d.wPos.y);
+//            telemetry.addData("x pos", d.wPos.x);
+//            telemetry.addData("y pos", d.wPos.y);
 
+            //telemetry.addData("goal position", d.goalPosition);
+
+//            telemetry.addData("goal position", d.goalBox);
+
+            telemetry.addData("H", d.hsvValues[0]);
+            telemetry.addData("S", d.hsvValues[1]);
+            telemetry.addData("V", d.hsvValues[2]);
 
 //            telemetry.addData("heading", d.heading);
 //            telemetry.addData("bucket", d.robot.bucket.getPosition());

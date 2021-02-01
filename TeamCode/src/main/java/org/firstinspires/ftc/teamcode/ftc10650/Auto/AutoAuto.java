@@ -29,7 +29,7 @@ public class AutoAuto extends ComplexOp {
         ComplexMove(null, null, null, OtherCalcs.GetDonutStack());
         ComplexMove(null,null,null, OtherCalcs.Shoot());
 
-        if(MoveData.stackHeight == 0){
+        if(d.stackHeight == 0){
 
 
 
@@ -42,33 +42,42 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     SpeedCalcs.SetSpeed(0.2),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(10, 55)),
-                    OrientationCalcs.lookToOrientation(180));
+                            new Vector2D(15, 60)),
+                    //OrientationCalcs.lookToOrientation(180));
+                    OrientationCalcs.spinToProgress(
+                            new OrientationCalcs.spinProgress(0.0, 0.9, 180)));
 
 
             ComplexMove(null, null, null,
                     OtherCalcs.SetWobblePosition(60),
                     OtherCalcs.TimeProgress(2000));
 
+            ComplexMove(
+                    SpeedCalcs.SetSpeed(0.2),
+                    MotionCalcs.PointMotion(5,
+                            new Vector2D(-15, 75)),
+                    OrientationCalcs.holdHeading(),
+                    OtherCalcs.SetWobblePosition(0));
+
 
             ComplexMove(null, null,
                     OrientationCalcs.lookToOrientation(0),
-                    OtherCalcs.TimeProgress(5000));
+                    OtherCalcs.TimeProgress(2000));
 
 
 
-        } else if (MoveData.stackHeight == 1) {
+        } else if (d.stackHeight == 1) {
 
 
 
             ComplexMove(
-                    SpeedCalcs.SetSpeed(0.2),//.SetProgressSpeed(
+                    SpeedCalcs.SetSpeed(0.3),//.SetProgressSpeed(
                             //new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             //new SpeedCalcs.ProgressSpeed(0.3, 1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
                     MotionCalcs.PointMotion(5,
                             new Vector2D(-30, 30),
                             new Vector2D(-30, 55),
-                            new Vector2D(-10, 70)),
+                            new Vector2D(-15, 80)),
                     OrientationCalcs.spinToProgress(
                             new OrientationCalcs.spinProgress(0, 0.5, 0),
                             new OrientationCalcs.spinProgress(0.5, 0.9, 180)));
@@ -87,17 +96,18 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     SpeedCalcs.SetSpeed(0.3),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(-15, 55)),
+                            new Vector2D(-15, 75)),
                     OrientationCalcs.holdHeading());
 
 
             ComplexMove(null, null,
-                    OrientationCalcs.lookToOrientation(0),
+                    OrientationCalcs.spinToProgress(
+                            new OrientationCalcs.spinProgress(0.0, 0.9, 180)),
                     OtherCalcs.TimeProgress(5000));
 
 
 
-        } else if (MoveData.stackHeight == 4) {
+        } else if (d.stackHeight == 4) {
 
 
 
@@ -108,10 +118,10 @@ public class AutoAuto extends ComplexOp {
                     MotionCalcs.PointMotion(5,
                             new Vector2D(-30, 30),
                             new Vector2D(-30, 55),
-                            new Vector2D(10, 95)),
+                            new Vector2D(7, 105)),
                     OrientationCalcs.spinToProgress(
-                            new OrientationCalcs.spinProgress(0, 0.5, 0),
-                            new OrientationCalcs.spinProgress(0.5, 0.9, 180)));
+                            new OrientationCalcs.spinProgress(0, 0.3, 0),
+                            new OrientationCalcs.spinProgress(0.3, 0.9, 180)));
             ComplexMove(null, null, null,
                     OtherCalcs.SetWobblePosition(60),
                     OtherCalcs.TimeProgress(2000));
@@ -124,12 +134,13 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     SpeedCalcs.SetSpeed(0.6),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(-30, 20)),
+                            new Vector2D(-15, 75)),
                     OrientationCalcs.holdHeading());
 
 
             ComplexMove(null, null,
-                    OrientationCalcs.lookToOrientation(0),
+                    OrientationCalcs.spinToProgress(
+                            new OrientationCalcs.spinProgress(0, 0.9, 180)),
                     OtherCalcs.TimeProgress(5000));
 
 
