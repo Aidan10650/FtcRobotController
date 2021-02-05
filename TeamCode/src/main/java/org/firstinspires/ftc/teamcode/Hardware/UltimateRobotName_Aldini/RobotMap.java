@@ -88,10 +88,10 @@ public class RobotMap {
 //        shooterEx.setPIDCoefficients(motorIndexYeet, DcMotor.RunMode.RUN_USING_ENCODER, pidNewYeet);
 
         wobble = hw.get(DcMotor.class, "wobble");
-        wobble.setTargetPosition(0);
+        wobble.setTargetPosition(3);
         wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wobbleEx = (DcMotorEx) wobble;
-        wobbleEx.setVelocity(400);
+        wobbleEx.setVelocity(500);//400
         final double NEW_P = 12;
         final double NEW_I = 6;
         final double NEW_D = 0.2;

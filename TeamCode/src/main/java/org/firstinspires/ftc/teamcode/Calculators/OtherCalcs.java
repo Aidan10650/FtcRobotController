@@ -260,9 +260,9 @@ public class OtherCalcs {
                 }
                 if(!d.manip.x()) dx = true;
                 if(i == 0){
-                    d.robot.wobble.setTargetPosition(0);
+                    d.robot.wobble.setTargetPosition(3);
                 } else if (i == 1) {
-                    d.robot.wobble.setTargetPosition(170);//160
+                    d.robot.wobble.setTargetPosition(520);//170
                 } //else if (i == 2){
 //                    d.robot.wobble.setTargetPosition(0);
 //                } else {

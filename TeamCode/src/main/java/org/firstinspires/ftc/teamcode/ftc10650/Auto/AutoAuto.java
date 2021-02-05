@@ -49,7 +49,7 @@ public class AutoAuto extends ComplexOp {
 
 
             ComplexMove(null, null, null,
-                    OtherCalcs.SetWobblePosition(60),
+                    OtherCalcs.SetWobblePosition(180),//60
                     OtherCalcs.TimeProgress(2000));
 
             ComplexMove(
@@ -57,7 +57,7 @@ public class AutoAuto extends ComplexOp {
                     MotionCalcs.PointMotion(5,
                             new Vector2D(-15, 75)),
                     OrientationCalcs.holdHeading(),
-                    OtherCalcs.SetWobblePosition(0));
+                    OtherCalcs.SetWobblePosition(3));
 
 
             ComplexMove(null, null,
@@ -84,12 +84,12 @@ public class AutoAuto extends ComplexOp {
 
 
             ComplexMove(null, null, null,
-                    OtherCalcs.SetWobblePosition(60),
+                    OtherCalcs.SetWobblePosition(180),//60
                     OtherCalcs.TimeProgress(2000));
 
 
             ComplexMove(null, null, null,
-                    OtherCalcs.SetWobblePosition(0),
+                    OtherCalcs.SetWobblePosition(3),
                     OtherCalcs.TimeProgress(2000));
 
 
@@ -123,12 +123,12 @@ public class AutoAuto extends ComplexOp {
                             new OrientationCalcs.spinProgress(0, 0.3, 0),
                             new OrientationCalcs.spinProgress(0.3, 0.9, 180)));
             ComplexMove(null, null, null,
-                    OtherCalcs.SetWobblePosition(60),
+                    OtherCalcs.SetWobblePosition(180),//60
                     OtherCalcs.TimeProgress(2000));
 
 
             ComplexMove(null, null, null,
-                    OtherCalcs.SetWobblePosition(0), OtherCalcs.TimeProgress(2000));
+                    OtherCalcs.SetWobblePosition(3), OtherCalcs.TimeProgress(2000));
 
 
             ComplexMove(

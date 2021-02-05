@@ -27,9 +27,9 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
         @Override
         public int compare(Rect rect, Rect t1) {
             if(t1.empty() || rect.empty()) return 0;
-            if(0.1*rect.width>Math.abs(rect.width-t1.width)){
+            if(0.25*rect.width>Math.abs(rect.width-t1.width)){
                 return 0;
-            } else if (rect.y>t1.y){
+            } else if (rect.width>t1.width){
                 return 1;
             } else {
                 return -1;
@@ -43,7 +43,7 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
         public int compare(Rect rect, Rect t1) {
             if(t1.empty() || rect.empty()) return 0;
 
-            if(rect.y<t1.y) return 1;
+            if(rect.y>t1.y) return 1;
 
              else return -1;
 
@@ -113,12 +113,12 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
 
                 Imgproc.cvtColor(input, nHSV, Imgproc.COLOR_RGB2HSV);
 
-                Rect rectCrop = new Rect(input.width() / 2 - 250, 0, 250, input.height());
+                Rect rectCrop = new Rect(0, 0, input.width()/2, input.height());
                 Mat hsv = new Mat(nHSV, rectCrop);
 
                 Core.inRange(hsv, lower, upper, mask);
 
-                Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size((4) + 1, (1) + 1));
+                Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size((2) + 1, (2) + 1));
                 Imgproc.erode(mask, mask, kernel);
                 Imgproc.dilate(mask, mask, kernel);
 
@@ -128,7 +128,10 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                 Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
                 ArrayList<Pair<Double, MatOfPoint>> doubleArrayList = new ArrayList<Pair<Double, MatOfPoint>>();
                 for (MatOfPoint contour : contours) {
-                    if (Imgproc.boundingRect(contour).height > 40) continue;
+                    if (Imgproc.boundingRect(contour).height > 40 ||
+                        Imgproc.boundingRect(contour).width > 80 ||
+                        Imgproc.boundingRect(contour).y < 40) continue;
+
                     doubleArrayList.add(new Pair<Double, MatOfPoint>((double) Imgproc.boundingRect(contour).width, contour));
                 }
 
@@ -146,7 +149,7 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                     rectArray.add(b);
                     Imgproc.rectangle(mask, Imgproc.boundingRect(p.second), new Scalar(255, 0, 0), 4);
                     i++;
-                    if (i > 2) break;
+                    if (i > 0) break;
                 }
 
 

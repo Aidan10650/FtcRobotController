@@ -240,25 +240,27 @@ public class OrientationCalcs {
     }
 
     public static Interfaces.OrientationCalc lookToPower(){
+        final Interfaces.OrientationCalc lookOrient = lookToOrientation(0);
         return new Interfaces.OrientationCalc() {
             @Override
             public double CalcOrientation(Interfaces.MoveData d) {
-                if(d.driver.x()) {
-                    double localHeading = d.heading%360;
-                    if (localHeading > 180.0)
-                    {
+                if(d.driver.x()&&d.powerCenter.y!=-1&&d.powerCenter.x!=-1) {
+
+                    double localHeading = d.heading % 360;
+                    if (localHeading > 180.0) {
                         localHeading -= 180.0;
-                    }else if(localHeading < -180.0)
-                    {
+                    } else if (localHeading < -180.0) {
                         localHeading += 360.0;
                     }
 
-                    if(Math.abs(localHeading - 20) < 17){
-                        return  ((720.0 / 2) - d.powerCenter.y) * 0.0012;
+                    if (Math.abs(localHeading - 22.5) < 22.5) {
+                        double error = (720.0 / 2) - d.powerCenter.y;
+                        return Math.sqrt(Math.abs(error) * 0.001) * Math.signum(error);
                     } else {
-                        return -(20-localHeading)*d.orientationP;
+                        return (localHeading - 22.5) * d.orientationP;
                     }
-
+                } else if (d.driver.b()){
+                    return lookOrient.CalcOrientation(d);
                 } else {
                     return d.driver.rs().x;
                 }
