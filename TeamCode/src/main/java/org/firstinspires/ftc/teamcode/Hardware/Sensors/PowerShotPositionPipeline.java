@@ -130,6 +130,8 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                 for (MatOfPoint contour : contours) {
                     if (Imgproc.boundingRect(contour).height > 40 ||
                         Imgproc.boundingRect(contour).width > 80 ||
+                        Imgproc.boundingRect(contour).width < 30 ||
+                        Imgproc.boundingRect(contour).height < 10 ||
                         Imgproc.boundingRect(contour).y < 40) continue;
 
                     doubleArrayList.add(new Pair<Double, MatOfPoint>((double) Imgproc.boundingRect(contour).width, contour));
@@ -140,16 +142,16 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                     Collections.reverse(doubleArrayList);
                 }
 
-                int i = 0;
+//                int i = 0;
                 rectArray.clear();
                 for (Pair<Double, MatOfPoint> p : doubleArrayList) {
                     Rect b = Imgproc.boundingRect(p.second);
                     if (b.empty()) continue;
 
                     rectArray.add(b);
-                    Imgproc.rectangle(mask, Imgproc.boundingRect(p.second), new Scalar(255, 0, 0), 4);
-                    i++;
-                    if (i > 0) break;
+//                    Imgproc.rectangle(mask, Imgproc.boundingRect(p.second), new Scalar(255, 0, 0), 4);
+//                    i++;
+//                    if (i > 0) break;
                 }
 
 
@@ -177,8 +179,10 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
             if (!rectArray.isEmpty()) {
                 try {
                     Collections.sort(rectArray, new WidthComparator());
-                    Collections.sort(rectArray, new HeightComparator());
-                    return new Vector2D(rectArray.get(0).x + rectArray.get(0).width / 2.0, rectArray.get(0).y + rectArray.get(0).height / 2.0);
+                    Collections.reverse(rectArray);
+                    List<Rect> rArray = rectArray.subList(0, 2);
+                    Collections.sort(rArray, new HeightComparator());
+                    return new Vector2D(rArray.get(0).x + rArray.get(0).width / 2.0, rArray.get(0).y + rArray.get(0).height / 2.0);
 
                 }catch(Exception e)
                 {
