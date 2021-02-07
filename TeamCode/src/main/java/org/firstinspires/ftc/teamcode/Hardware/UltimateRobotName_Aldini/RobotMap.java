@@ -75,6 +75,8 @@ public class RobotMap {
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeEx = (DcMotorEx) intake;
+//        PIDCoefficients pidNewIntake = new PIDCoefficients(10, 6, 50);
+//        shooterEx.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNewIntake);
 
         shooter = hw.get(DcMotor.class, "shooter");
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

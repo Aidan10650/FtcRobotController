@@ -262,7 +262,7 @@ public class OtherCalcs {
                 if(i == 0){
                     d.robot.wobble.setTargetPosition(3);
                 } else if (i == 1) {
-                    d.robot.wobble.setTargetPosition(520);//170
+                    d.robot.wobble.setTargetPosition(550);//520//170
                 } //else if (i == 2){
 //                    d.robot.wobble.setTargetPosition(0);
 //                } else {
