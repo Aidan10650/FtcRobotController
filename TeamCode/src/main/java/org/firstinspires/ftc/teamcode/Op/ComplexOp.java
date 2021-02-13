@@ -118,16 +118,19 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("manip ly", d.manip.ls().y);
 //            telemetry.addData("manip rx", d.manip.rs().x);
 //            telemetry.addData("manip ry", d.manip.rs().y);
-//            telemetry.addData("x pos", d.wPos.x);
-//            telemetry.addData("y pos", d.wPos.y);
+            telemetry.addData("x pos", d.wPos.x);
+            telemetry.addData("y pos", d.wPos.y);
 
             //telemetry.addData("goal position", d.goalPosition);
 
 //            telemetry.addData("goal position", d.goalBox);
 
-            telemetry.addData("H", d.hsvValues[0]);
-            telemetry.addData("S", d.hsvValues[1]);
-            telemetry.addData("V", d.hsvValues[2]);
+//            telemetry.addData("H", d.hsvValues[0]);
+//            telemetry.addData("S", d.hsvValues[1]);
+//            telemetry.addData("V", d.hsvValues[2]);
+
+//            telemetry.addData("height", d.powerCenter.x);
+
 
 //            telemetry.addData("heading", d.heading);
 //            telemetry.addData("bucket", d.robot.bucket.getPosition());
