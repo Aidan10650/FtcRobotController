@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.matrices.GeneralMatrixF;
 import org.firstinspires.ftc.robotcore.external.matrices.MatrixF;
+import org.firstinspires.ftc.teamcode.Calculators.Interfaces;
 import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
 
@@ -25,14 +26,17 @@ public class MecanumDrive {
     private int brightOffset;
     private int bleftOffset;
 
+    private Interfaces.MoveData d;
 
-    public MecanumDrive(RobotMap robot) {
-        this.robot = robot;
+
+    public MecanumDrive(Interfaces.MoveData d) {
+        this.robot = d.robot;
         float[] data = {1.0f, 1.0f, 1.0f,
                 1.0f, -1.0f, -1.0f,
                 1.0f, -1.0f, 1.0f};
         conversion = new GeneralMatrixF(3, 3, data);
         conversion = conversion.inverted();
+        this.d = d;
     }
 
     private void setVelocities(double maxVeloicty, double flSpeed, double frSpeed, double blSpeed, double brSpeed) {
@@ -46,6 +50,7 @@ public class MecanumDrive {
         robot.frightEx.setVelocity(maxVeloicty * frSpeed / largest);
         robot.bleftEx.setVelocity(maxVeloicty * blSpeed / largest);
         robot.brightEx.setVelocity(maxVeloicty * brSpeed / largest);
+        d.bleftCommand = maxVeloicty * blSpeed / largest;
     }
 
 
@@ -70,7 +75,7 @@ public class MecanumDrive {
         double bleftSpeed  = speed*(motionVector.y - motionVector.x) + rotate;
         double brightSpeed = speed*(motionVector.y + motionVector.x) - rotate;
 
-        setVelocities(2500, fleftSpeed, frightSpeed, bleftSpeed, brightSpeed);
+        setVelocities(1900, fleftSpeed, frightSpeed, bleftSpeed, brightSpeed);
     }
 
     public Vector2D getVectorDistanceCm(){

@@ -233,10 +233,12 @@ public class OtherCalcs {
 
 //                if(d.manip.lb()) d.robot.shooter.setPower(1.0);
 //                else d.robot.shooter.setPower(d.manip.lt());
-                if(d.manip.ls().y>0.5) d.robot.shooterEx.setVelocity(1750.0);
-                else if (d.manip.ls().y<-0.5) d.robot.shooterEx.setVelocity(1500);
-                else d.robot.shooterEx.setVelocity(2200*d.manip.lt());
-
+                double newVelocity;
+                if(d.manip.ls().y>0.5) newVelocity = 1750.0;
+                else if (d.manip.ls().y<-0.5) newVelocity = 1500;
+                else newVelocity = 2200*d.manip.lt();
+                d.robot.shooterEx.setVelocity(newVelocity);
+                d.shooterCommand = newVelocity;
             }
 
 

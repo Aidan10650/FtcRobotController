@@ -26,6 +26,7 @@ public class AutoAuto extends ComplexOp {
 
     @Override
     public void body() throws InterruptedException {
+        ComplexMove(null,null,null,OtherCalcs.Shoot());
         ComplexMove(null, null, null, OtherCalcs.GetDonutStack());
 
         ComplexMove(

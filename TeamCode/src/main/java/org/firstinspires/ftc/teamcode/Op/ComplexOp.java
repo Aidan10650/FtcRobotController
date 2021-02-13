@@ -57,7 +57,7 @@ public abstract class ComplexOp extends LinearOpMode{
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(d.robot.shooterEx.getVelocity());
+                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(Math.abs(d.robot.shooterEx.getVelocity())+":"+Double.toString(d.shooterCommand));
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);
@@ -190,7 +190,7 @@ public abstract class ComplexOp extends LinearOpMode{
     void initHardware(HardwareMap hwMap) {
         d.robot = new RobotMap(hwMap, startPositionAndOrientation().StartHeading);
         d.heading = startPositionAndOrientation().StartHeading;
-        mecanumDrive = new MecanumDrive(d.robot);
+        mecanumDrive = new MecanumDrive(d);
     }
 
     public abstract Interfaces.MoveData.StartData startPositionAndOrientation();

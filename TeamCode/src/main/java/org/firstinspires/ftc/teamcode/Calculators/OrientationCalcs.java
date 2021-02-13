@@ -256,10 +256,10 @@ public class OrientationCalcs {
                     if (Math.abs(localHeading - 20) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
                         double error = (720.0 / 2) - d.powerCenter.y + 10;//offset
                         //return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
-                        if(Math.abs(error) > 70) error = 50*Math.signum(error);
-                        return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
+                        if(Math.abs(error) > 70) error = 90*Math.signum(error);
+                        return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);
                     } else {
-                        return (localHeading - 20) * 0.0005;
+                        return (localHeading - 20) * 0.0025;
                     }
                 } else if (d.driver.b()){
                     return lookOrient.CalcOrientation(d);

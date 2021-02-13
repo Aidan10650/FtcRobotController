@@ -52,6 +52,8 @@ public class Interfaces {
          */
         public RobotMap robot = null;
 
+        public double shooterCommand = 0;
+        public double bleftCommand = 0;
 
 
         /**
