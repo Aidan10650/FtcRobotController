@@ -253,11 +253,13 @@ public class OrientationCalcs {
                         localHeading += 360.0;
                     }
 
-                    if (Math.abs(localHeading - 22.5) < 22.5 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
-                        double error = (720.0 / 2) - d.powerCenter.y - 25;//offset
-                        return Math.sqrt(Math.abs(error) * 0.002) * Math.signum(error);
+                    if (Math.abs(localHeading - 20) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
+                        double error = (720.0 / 2) - d.powerCenter.y + 10;//offset
+                        //return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
+                        if(Math.abs(error) > 70) error = 90*Math.signum(error);
+                        return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);
                     } else {
-                        return (localHeading - 22.5) * 0.0005;
+                        return (localHeading - 20) * 0.0025;
                     }
                 } else if (d.driver.b()){
                     return lookOrient.CalcOrientation(d);

@@ -26,9 +26,32 @@ public class AutoAuto extends ComplexOp {
 
     @Override
     public void body() throws InterruptedException {
+        ComplexMove(null,null,null,OtherCalcs.Shoot());
         ComplexMove(null, null, null, OtherCalcs.GetDonutStack());
-        ComplexMove(null,null,null, OtherCalcs.Shoot());
 
+        ComplexMove(
+                SpeedCalcs.SetSpeed(0.2),
+                MotionCalcs.PointMotion(5, new Vector2D(-30, 60)),
+                OrientationCalcs.lookToOrientation(0)
+        );
+        ComplexMove(
+                SpeedCalcs.SetSpeed(1.0),
+                MotionCalcs.PointMotionNoProgress(5, new Vector2D(-30, 60)),
+                OrientationCalcs.lookToPower(),
+                OtherCalcs.SingleShot(5000)
+        );
+        ComplexMove(
+                SpeedCalcs.SetSpeed(1.0),
+                MotionCalcs.PointMotionNoProgress(5, new Vector2D(-30, 60)),
+                OrientationCalcs.lookToPower(),
+                OtherCalcs.SingleShot(5000)
+        );
+        ComplexMove(
+                SpeedCalcs.SetSpeed(1.0),
+                MotionCalcs.PointMotionNoProgress(5, new Vector2D(-30, 60)),
+                OrientationCalcs.lookToPower(),
+                OtherCalcs.SingleShot(5000)
+        );
         if(d.stackHeight == 0){
 
 
@@ -80,7 +103,7 @@ public class AutoAuto extends ComplexOp {
                             new Vector2D(-15, 80)),
                     OrientationCalcs.spinToProgress(
                             new OrientationCalcs.spinProgress(0, 0.5, 0),
-                            new OrientationCalcs.spinProgress(0.5, 0.9, 550)));
+                            new OrientationCalcs.spinProgress(0.5, 0.9, 180)));
 
 
             ComplexMove(null, null, null,

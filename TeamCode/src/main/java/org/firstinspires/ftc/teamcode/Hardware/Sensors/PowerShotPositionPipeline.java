@@ -27,17 +27,17 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
         @Override
         public int compare(Rect rect, Rect t1) {
             if(t1.empty() || rect.empty()) return 0;
-            if(0.25*rect.width>Math.abs(rect.width-t1.width)){
+            if(0.25*rect.width>Math.abs(rect.width-t1.width) || 0.25*t1.width>Math.abs(rect.width-t1.width)) {
                 return 0;
             } else if (rect.width>t1.width){
-                return 1;
+                return 1;//was 1
             } else {
-                return -1;
+                return -1;///was -1
             }
         }
     }
 
-    static class WidthComparator implements  Comparator<Rect>{
+    static class LeftRightComparator implements  Comparator<Rect>{
 
         @Override
         public int compare(Rect rect, Rect t1) {
@@ -128,30 +128,32 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                 Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
                 ArrayList<Pair<Double, MatOfPoint>> doubleArrayList = new ArrayList<Pair<Double, MatOfPoint>>();
                 for (MatOfPoint contour : contours) {
-                    if (Imgproc.boundingRect(contour).height > 40 ||
-                        Imgproc.boundingRect(contour).width > 80 ||
-                        Imgproc.boundingRect(contour).width < 30 ||
-                        Imgproc.boundingRect(contour).height < 10 ||
-                        Imgproc.boundingRect(contour).y < 40) continue;
+                    if (Imgproc.boundingRect(contour).height > 100 ||
+                        Imgproc.boundingRect(contour).width > 150 ||
+                        Imgproc.boundingRect(contour).width < 90 ||
+                        Imgproc.boundingRect(contour).height < 5) continue;
 
                     doubleArrayList.add(new Pair<Double, MatOfPoint>((double) Imgproc.boundingRect(contour).width, contour));
                 }
 
+                //Sort by real-world-height
                 if (!doubleArrayList.isEmpty()) {
                     Collections.sort(doubleArrayList, new PairComparator());
                     Collections.reverse(doubleArrayList);
                 }
 
-//                int i = 0;
+                // Create bounding rects
+                int i = 0;
                 rectArray.clear();
                 for (Pair<Double, MatOfPoint> p : doubleArrayList) {
                     Rect b = Imgproc.boundingRect(p.second);
                     if (b.empty()) continue;
 
                     rectArray.add(b);
-//                    Imgproc.rectangle(mask, Imgproc.boundingRect(p.second), new Scalar(255, 0, 0), 4);
-//                    i++;
-//                    if (i > 0) break;
+                    Imgproc.rectangle(mask, Imgproc.boundingRect(p.second), new Scalar(255, 0, 0), 4);
+                    i++;
+                    //Limiting to 3 rects
+//                  if (i > 0) break;
                 }
 
 
@@ -160,12 +162,34 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
 //            }
 
 
+
+
+                List<Rect> rArray;
+//                if(!rectArray.isEmpty()) {
+//                    try {
+                        Collections.sort(rectArray, new LeftRightComparator());
+                        Collections.reverse(rectArray);
+//                        if(rectArray.size() > 2) {
+//                            rArray = rectArray.subList(0, 2);
+//                            Collections.sort(rArray, new HeightComparator());
+//                            for (Rect r : rArray) {
+//                                Imgproc.rectangle(mask, r, new Scalar(0, 255, 255), 4);
+//                            }
+//                        }
+
+
+//
+//                    } catch (Exception e) {
+//                        rArray = null;
+//                    }
+//
+//
+//                }
+
                 hsv.release();
                 hierarchy.release();
                 nHSV.release();
                 kernel.release();
-
-
                 return mask;
             } catch (Exception e){
                 return null;
@@ -178,11 +202,13 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
         public Vector2D getPowerCenter() {
             if (!rectArray.isEmpty()) {
                 try {
-                    Collections.sort(rectArray, new WidthComparator());
+                    //sort left right
+                    Collections.sort(rectArray, new LeftRightComparator());
                     Collections.reverse(rectArray);
-                    List<Rect> rArray = rectArray.subList(0, 2);
-                    Collections.sort(rArray, new HeightComparator());
-                    return new Vector2D(rArray.get(0).x + rArray.get(0).width / 2.0, rArray.get(0).y + rArray.get(0).height / 2.0);
+                    return new Vector2D(rectArray.get(0).width/*rectArray.get(0).x + rectArray.get(0).width / 2.0*/, rectArray.get(0).y + rectArray.get(0).height / 2.0);
+                    //                    List<Rect> rArray = rectArray.subList(0, 2);
+//                    Collections.sort(rArray, new HeightComparator());
+//                    return new Vector2D(rArray.get(0).x + rArray.get(0).width / 2.0, rArray.get(0).y + rArray.get(0).height / 2.0);
 
                 }catch(Exception e)
                 {

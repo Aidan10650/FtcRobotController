@@ -233,10 +233,12 @@ public class OtherCalcs {
 
 //                if(d.manip.lb()) d.robot.shooter.setPower(1.0);
 //                else d.robot.shooter.setPower(d.manip.lt());
-                if(d.manip.ls().y>0.5) d.robot.shooterEx.setVelocity(1750.0);
-                else if (d.manip.ls().y<-0.5) d.robot.shooterEx.setVelocity(1500);
-                else d.robot.shooterEx.setVelocity(2200*d.manip.lt());
-
+                double newVelocity;
+                if(d.manip.ls().y>0.5) newVelocity = 1750.0;
+                else if (d.manip.ls().y<-0.5) newVelocity = 1500;
+                else newVelocity = 2200*d.manip.lt();
+                d.robot.shooterEx.setVelocity(newVelocity);
+                d.shooterCommand = newVelocity;
             }
 
 
@@ -353,7 +355,7 @@ public class OtherCalcs {
                     {
                         @Override
                         public void onOpened() {
-                            d.robot.yeetCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                            d.robot.yeetCam.startStreaming(432, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
                         }
                     });
                     first = false;
@@ -411,7 +413,7 @@ public class OtherCalcs {
                     {
                         @Override
                         public void onOpened() {
-                            d.robot.yeetCam.startStreaming(960, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240
+                            d.robot.yeetCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240 //1280 was 960
                         }
                     });
                     first = false;
@@ -421,6 +423,29 @@ public class OtherCalcs {
             @Override
             public double myProgress(Interfaces.MoveData d) {
                 return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc SingleShot(final int delay){
+
+        return new Interfaces.OtherCalc() {
+            TimeUtil time = new TimeUtil();
+            boolean prog = false;
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                time.startTimer(delay);
+                d.robot.pusher.setPosition(0.0);
+                d.robot.bucket.setPosition(0.25);
+                d.robot.shooterEx.setVelocity(1500);
+                while(!time.timerDone());
+                d.robot.pusher.setPosition(1.0);
+                prog = true;
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return prog?1:0;
             }
         };
     }

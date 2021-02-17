@@ -57,7 +57,7 @@ public abstract class ComplexOp extends LinearOpMode{
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(d.robot.shooterEx.getVelocity());
+                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(Math.abs(d.robot.shooterEx.getVelocity())+":"+Double.toString(d.shooterCommand));
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);
@@ -118,16 +118,19 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("manip ly", d.manip.ls().y);
 //            telemetry.addData("manip rx", d.manip.rs().x);
 //            telemetry.addData("manip ry", d.manip.rs().y);
-//            telemetry.addData("x pos", d.wPos.x);
-//            telemetry.addData("y pos", d.wPos.y);
+            telemetry.addData("x pos", d.wPos.x);
+            telemetry.addData("y pos", d.wPos.y);
 
             //telemetry.addData("goal position", d.goalPosition);
 
 //            telemetry.addData("goal position", d.goalBox);
 
-            telemetry.addData("H", d.hsvValues[0]);
-            telemetry.addData("S", d.hsvValues[1]);
-            telemetry.addData("V", d.hsvValues[2]);
+//            telemetry.addData("H", d.hsvValues[0]);
+//            telemetry.addData("S", d.hsvValues[1]);
+//            telemetry.addData("V", d.hsvValues[2]);
+
+//            telemetry.addData("height", d.powerCenter.x);
+
 
 //            telemetry.addData("heading", d.heading);
 //            telemetry.addData("bucket", d.robot.bucket.getPosition());
@@ -187,7 +190,7 @@ public abstract class ComplexOp extends LinearOpMode{
     void initHardware(HardwareMap hwMap) {
         d.robot = new RobotMap(hwMap, startPositionAndOrientation().StartHeading);
         d.heading = startPositionAndOrientation().StartHeading;
-        mecanumDrive = new MecanumDrive(d.robot);
+        mecanumDrive = new MecanumDrive(d);
     }
 
     public abstract Interfaces.MoveData.StartData startPositionAndOrientation();

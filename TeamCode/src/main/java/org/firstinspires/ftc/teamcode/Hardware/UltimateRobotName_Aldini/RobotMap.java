@@ -42,6 +42,8 @@ public class RobotMap {
          * @see DcMotorSimple.Direction.REVERSE is the correct place to change the directions of the motors
          * it should not be done in a higher level code this is the correct spot
          */
+//PIDCoefficients pidDrive = new PIDCoefficients(50, 10, 0);
+        PIDFCoefficients pidDrive = new PIDFCoefficients(10, 6, 10, 30);
 
         bright = hw.get(DcMotor.class, "bright");
         //RUN_USING_ENCODER gives each motor a PID and ensures the motors run at the same speed every time.
@@ -50,7 +52,7 @@ public class RobotMap {
         bright.setDirection(DcMotorSimple.Direction.REVERSE);
         bright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         brightEx = (DcMotorEx) bright;
-
+        brightEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidDrive);
 
         fright = hw.get(DcMotor.class, "fright");
         fright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -58,36 +60,40 @@ public class RobotMap {
         fright.setDirection(DcMotorSimple.Direction.REVERSE);
         fright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frightEx = (DcMotorEx) fright;
+        frightEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidDrive);
 
         bleft = hw.get(DcMotor.class, "bleft");
         bleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bleftEx = (DcMotorEx) bleft;
+        bleftEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidDrive);
 
         fleft = hw.get(DcMotor.class, "fleft");
         fleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fleftEx = (DcMotorEx) fleft;
+        fleftEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidDrive);
 
         intake = hw.get(DcMotor.class, "intake");
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeEx = (DcMotorEx) intake;
+        intakeEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(10, 6, 10, 10));
 //        PIDCoefficients pidNewIntake = new PIDCoefficients(10, 6, 50);
 //        shooterEx.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNewIntake);
 
         shooter = hw.get(DcMotor.class, "shooter");
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setDirection(DcMotorSimple.Direction.REVERSE);
-        final double NEW_P_YEET = 5.0345;
-        final double NEW_I_YEET = 0.3631;
+        final double NEW_P_YEET = 200.0;//5.0345;//4.510599773831102;
+        final double NEW_I_YEET = 15.0;//0.3631;//15.424780949509735;
         final double NEW_D_YEET = 0.0000;
         shooterEx  = (DcMotorEx)shooter;
 //        int motorIndexYeet = ((DcMotorEx)shooter).getPortNumber();
-//        PIDCoefficients pidNewYeet = new PIDCoefficients(NEW_P_YEET, NEW_I_YEET, NEW_D_YEET);
-//        shooterEx.setPIDCoefficients(motorIndexYeet, DcMotor.RunMode.RUN_USING_ENCODER, pidNewYeet);
+        PIDCoefficients pidNewYeet = new PIDCoefficients(NEW_P_YEET, NEW_I_YEET, NEW_D_YEET);
+        shooterEx.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNewYeet);
 
         wobble = hw.get(DcMotor.class, "wobble");
         wobble.setTargetPosition(3);
