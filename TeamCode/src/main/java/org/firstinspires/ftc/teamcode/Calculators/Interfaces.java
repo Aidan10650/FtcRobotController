@@ -55,6 +55,7 @@ public class Interfaces {
         public double shooterCommand = 0;
         public double bleftCommand = 0;
 
+        public boolean aimToPowerOverride = false;
 
         /**
          * the reason the gyro is not passed as a gyro into move data and instead as a heading is so that all

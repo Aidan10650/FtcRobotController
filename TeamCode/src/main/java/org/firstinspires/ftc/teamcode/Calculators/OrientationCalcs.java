@@ -244,7 +244,7 @@ public class OrientationCalcs {
         return new Interfaces.OrientationCalc() {
             @Override
             public double CalcOrientation(Interfaces.MoveData d) {
-                if(d.driver.x()) {
+                if(d.driver.x()||d.aimToPowerOverride) {
 
                     double localHeading = d.heading % 360;
                     if (localHeading > 180.0) {
@@ -254,7 +254,7 @@ public class OrientationCalcs {
                     }
 
                     if (Math.abs(localHeading - 20) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
-                        double error = (720.0 / 2) - d.powerCenter.y + 10;//offset
+                        double error = ((720.0 / 2) +10.0)- d.powerCenter.y ;//offset
                         //return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
                         if(Math.abs(error) > 70) error = 90*Math.signum(error);
                         return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);

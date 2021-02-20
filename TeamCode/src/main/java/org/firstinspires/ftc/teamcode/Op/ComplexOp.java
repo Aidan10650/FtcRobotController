@@ -57,7 +57,7 @@ public abstract class ComplexOp extends LinearOpMode{
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(Math.abs(d.robot.shooterEx.getVelocity())+":"+Double.toString(d.shooterCommand));
+                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(Math.abs(d.robot.bleftEx.getVelocity())+":"+Double.toString(d.bleftCommand));
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);

@@ -273,7 +273,7 @@ public class OtherCalcs {
                 i%=2;
                 if(d.manip.l()) grab = true;
                 if(d.manip.r()) grab = false;
-                if(grab) d.robot.graber.setPosition(0.3);
+                if(grab) d.robot.graber.setPosition(0.8);
                 else d.robot.graber.setPosition(0);
                 //                d.robot.wobble.setPower(d.manip.rs().x/20);
             }
@@ -284,6 +284,22 @@ public class OtherCalcs {
             }
         };
     }
+
+    public static Interfaces.OtherCalc SetGrabberPosition(final boolean grab){
+        return new Interfaces.OtherCalc() {
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                if(grab) d.robot.graber.setPosition(0.8);
+                else d.robot.graber.setPosition(0);
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
     public static Interfaces.OtherCalc SetWobblePosition(final int wobblePos){
         return new Interfaces.OtherCalc() {
             @Override
@@ -427,20 +443,39 @@ public class OtherCalcs {
         };
     }
 
-    public static Interfaces.OtherCalc SingleShot(final int delay){
+    public static Interfaces.OtherCalc SingleShot(final double delay){
 
         return new Interfaces.OtherCalc() {
-            TimeUtil time = new TimeUtil();
+//            TimeUtil time = new TimeUtil();
+//            TimeUtil time1 = new TimeUtil();
+            double startTime = System.currentTimeMillis();
             boolean prog = false;
+            boolean first = true;
+            int i = 0;
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                time.startTimer(delay);
-                d.robot.pusher.setPosition(0.0);
-                d.robot.bucket.setPosition(0.25);
-                d.robot.shooterEx.setVelocity(1500);
-                while(!time.timerDone());
-                d.robot.pusher.setPosition(1.0);
-                prog = true;
+//                time.startTimer(delay);
+                d.aimToPowerOverride = true;
+
+                if(i <= 2) {
+                    if (System.currentTimeMillis() - startTime < delay + (first?1500.0:0.0)) {
+                        d.robot.pusher.setPosition(0.0);
+                        d.robot.bucket.setPosition(0.25);
+                        d.robot.shooterEx.setVelocity(1500);
+                    } else {
+                        d.robot.pusher.setPosition(1.0);
+                    }
+                    if (System.currentTimeMillis() - startTime > delay + 1000.0 + (first?1500.0:0.0)) {
+                        i++;
+                        startTime = System.currentTimeMillis();
+                        d.aimToPowerOverride = false;
+                        first = false;
+                        d.robot.pusher.setPosition(0.0);
+                    }
+                } else {
+                    prog = true;
+                    d.robot.shooterEx.setVelocity(0.0);
+                }
             }
 
             @Override

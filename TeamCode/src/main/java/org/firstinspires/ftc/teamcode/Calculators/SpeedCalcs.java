@@ -68,6 +68,9 @@ public class SpeedCalcs {
                         case PROG:
                             desiredSpeed = MathUtil.map(d.progress,startingProg,current.atDimension, startingSpeed,current.rampToSpeed);
                             nextSpeed = (d.progress>=current.atDimension);
+                            if (nextSpeed) {
+                                desiredSpeed = current.rampToSpeed;
+                            }
                             break;
                         case MILLIS:
                             if(!timeStart){

@@ -144,7 +144,7 @@ public class StackDeterminationPipeline extends OpenCvPipeline {
             Mat nonCroppedHsv = new Mat();
             Imgproc.cvtColor(input, nonCroppedHsv, Imgproc.COLOR_RGB2HSV);
 
-            Rect rectCrop = new Rect(nonCroppedHsv.width()/2, 0, nonCroppedHsv.width()/2, nonCroppedHsv.height());
+            Rect rectCrop = new Rect(nonCroppedHsv.width()*3/4, 0, nonCroppedHsv.width()/4, nonCroppedHsv.height());
             Mat hsv = new Mat(nonCroppedHsv, rectCrop);
             Core.inRange(hsv, lower, upper, mask);
             if(mask.height()!=rectCrop.height) input.release();
@@ -232,13 +232,13 @@ public class StackDeterminationPipeline extends OpenCvPipeline {
              * simply rendering the raw camera feed, because we called functions
              * to add some annotations to this buffer earlier up.
              */
-            Imgproc.cvtColor(mask, mask, Imgproc.COLOR_GRAY2RGB);
+//            Imgproc.cvtColor(mask, mask, Imgproc.COLOR_GRAY2RGB);
             hsv.release();
             //input.release();
             nonCroppedHsv.release();
             hierarchy.release();
             kernel.release();
-            return input;
+            return mask;
         }
 
         /*

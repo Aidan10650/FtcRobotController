@@ -43,7 +43,7 @@ public class RobotMap {
          * it should not be done in a higher level code this is the correct spot
          */
 //PIDCoefficients pidDrive = new PIDCoefficients(50, 10, 0);
-        PIDFCoefficients pidDrive = new PIDFCoefficients(10, 6, 10, 30);
+        PIDFCoefficients pidDrive = new PIDFCoefficients(20, 12, 5, 17.5);//p5 i2 d5 f17.5
 
         bright = hw.get(DcMotor.class, "bright");
         //RUN_USING_ENCODER gives each motor a PID and ensures the motors run at the same speed every time.
@@ -87,11 +87,13 @@ public class RobotMap {
         shooter = hw.get(DcMotor.class, "shooter");
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setDirection(DcMotorSimple.Direction.REVERSE);
-        final double NEW_P_YEET = 200.0;//5.0345;//4.510599773831102;
-        final double NEW_I_YEET = 15.0;//0.3631;//15.424780949509735;
-        final double NEW_D_YEET = 0.0000;
+        final double NEW_P_YEET = 240.0;//5.0345;//4.510599773831102;
+        final double NEW_I_YEET = 50.0;//0.3631;//15.424780949509735;
+        final double NEW_D_YEET = 10.0000;
         shooterEx  = (DcMotorEx)shooter;
 //        int motorIndexYeet = ((DcMotorEx)shooter).getPortNumber();
+//        shooterEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(2.12, 5.51, 0, 14));
+//        shooterEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(0, 0, 0, 14));
         PIDCoefficients pidNewYeet = new PIDCoefficients(NEW_P_YEET, NEW_I_YEET, NEW_D_YEET);
         shooterEx.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNewYeet);
 
