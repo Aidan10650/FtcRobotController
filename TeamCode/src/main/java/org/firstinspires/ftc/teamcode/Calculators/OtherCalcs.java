@@ -183,7 +183,7 @@ public class OtherCalcs {
         return new Interfaces.OtherCalc() {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                if(d.manip.a()) d.robot.intakeEx.setVelocity(600);
+                if(d.manip.a()) d.robot.intakeEx.setVelocity(1200);
                 else if(d.manip.y()) d.robot.intakeEx.setVelocity(-1600);
                 else d.robot.intake.setPower(0.0);
 
@@ -354,7 +354,7 @@ public class OtherCalcs {
 
 //                    phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
         return new Interfaces.OtherCalc(){
-            final StackDeterminationPipeline pipeline = new StackDeterminationPipeline();
+//            final StackDeterminationPipeline pipeline = new StackDeterminationPipeline();
             double myProgress = 0;
             boolean first = true;
             @Override
@@ -364,20 +364,20 @@ public class OtherCalcs {
 
             @Override
             public void CalcOther(final Interfaces.MoveData d) {
-                if(first){
-                    d.robot.yeetCam.setPipeline(pipeline);
-                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-                    {
-                        @Override
-                        public void onOpened() {
-                            d.robot.yeetCam.startStreaming(432, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
-                        }
-                    });
-                    first = false;
-                }
-                d.stackHeight = pipeline.getHeight();
-                myProgress += 0.01;
+//                if(first){
+//                    d.robot.yeetCam.setPipeline(pipeline);
+//                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+//                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+//                    {
+//                        @Override
+//                        public void onOpened() {
+//                            d.robot.yeetCam.startStreaming(432, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+//                        }
+//                    });
+//                    first = false;
+//                }
+                d.stackHeight = d.robot.pipeline.getHeight();
+                myProgress = 1.0;
             }
         };
     }
@@ -461,7 +461,7 @@ public class OtherCalcs {
                     if (System.currentTimeMillis() - startTime < delay + (first?1500.0:0.0)) {
                         d.robot.pusher.setPosition(0.0);
                         d.robot.bucket.setPosition(0.25);
-                        d.robot.shooterEx.setVelocity(1500);
+                        d.robot.shooterEx.setVelocity(1550);//1500
                     } else {
                         d.robot.pusher.setPosition(1.0);
                     }

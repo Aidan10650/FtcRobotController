@@ -9,7 +9,10 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.teamcode.Hardware.Sensors.Camera;
 //import org.firstinspires.ftc.teamcode.Hardware.Sensors.NavX;
 //import org.firstinspires.ftc.teamcode.Hardware.Sensors.VexEncoder;
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
+import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class RobotMap {
@@ -27,6 +30,8 @@ public class RobotMap {
     //public static VexEncoder vexCrap;
 
     public static OpenCvInternalCamera yeetCam;
+
+    public final StackDeterminationPipeline pipeline = new StackDeterminationPipeline();
 
     public static HardwareMap hw;
 
@@ -152,6 +157,17 @@ public class RobotMap {
         int cameraMonitorViewId = hw.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hw.appContext.getPackageName());
         yeetCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
+
+
+        yeetCam.setPipeline(pipeline);
+        yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            yeetCam.startStreaming(432, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                        }
+                    });
       //  yeetCam.initVuforia(hw, true);
         //yeetCam = hw.get(WebcamName.class, "yeetCam");
 

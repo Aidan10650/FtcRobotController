@@ -54,7 +54,7 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(7, 85)),
+                            new Vector2D(12, 85)),
                     //OrientationCalcs.lookToOrientation(0));
                     OrientationCalcs.spinToProgress(
                             new OrientationCalcs.spinProgress(0.0, 0.9, 0)));
@@ -87,14 +87,14 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(7, 75)),
+                            new Vector2D(12, 75)),
                     //OrientationCalcs.lookToOrientation(0));
                     OrientationCalcs.spinToProgress(
                             new OrientationCalcs.spinProgress(0.0, 0.9, 90)));
 
-            ComplexMove(null, null, null,
-                    OtherCalcs.SetGrabberPosition(true),
-                    OtherCalcs.TimeProgress(1000));
+//            ComplexMove(null, null, null,
+//                    OtherCalcs.SetGrabberPosition(true),
+//                    OtherCalcs.TimeProgress(1000));
 
 
 
@@ -186,8 +186,8 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(1.0,0.8, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2, 1.0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(7,45),
-                            new Vector2D(7, 110)),
+                            new Vector2D(12,45),
+                            new Vector2D(12, 110)),
                     OrientationCalcs.spinToProgress(
 //                            new OrientationCalcs.spinProgress(0, 0.3, 0),
                             new OrientationCalcs.spinProgress(0.0, 0.9, 90)));
@@ -205,7 +205,7 @@ public class AutoAuto extends ComplexOp {
                         new SpeedCalcs.ProgressSpeed(1.0,0.5, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                         new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
                 MotionCalcs.PointMotion(5, new Vector2D(-30, 55)),
-                OrientationCalcs.lookToOrientation(0)
+                OrientationCalcs.spinToProgress(new OrientationCalcs.spinProgress(0.2, 0.9, 0.0))
         );
         ComplexMove(
                 null,

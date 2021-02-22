@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
 
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
 import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.CompleteController;
@@ -130,6 +131,8 @@ public class Interfaces {
         static double MINBUCKET = 0.5;
 
         public int stackHeight = -1;
+
+
 
         public Vector2D powerCenter = new Vector2D(-1, -1);
 
