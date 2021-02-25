@@ -252,12 +252,15 @@ public class OrientationCalcs {
                     } else if (localHeading < -180.0) {
                         localHeading += 360.0;
                     }
-
-                    if (Math.abs(localHeading - 20) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
-                        double error = ((720.0 / 2) +10.0)- d.powerCenter.y ;//offset
+                    double error = ((720.0 / 2) + 10.0) - d.powerCenter.y;//offset
+                    if (Math.abs(localHeading - 5) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
                         //return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
-                        if(Math.abs(error) > 70) error = 90*Math.signum(error);
-                        return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);
+                        if (Math.abs(error) > 70) error = 90 * Math.signum(error);
+                        //return Math.signum(error) > 0 ? 0.2 : -0.2;
+                        return error*0.001;
+                        //return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);
+                    } else if (error<5){
+                        return 0.0;
                     } else {
                         return (localHeading - 5) * 0.0025;
                     }
@@ -265,6 +268,8 @@ public class OrientationCalcs {
                     return lookOrient.CalcOrientation(d);
                 } else {
                     return d.driver.rs().x;
+                    //double i = Math.signum(d.driver.rs().x);
+                    //return Math.pow(Math.abs(d.driver.rs().x), 3)*i;
                 }
             }
 

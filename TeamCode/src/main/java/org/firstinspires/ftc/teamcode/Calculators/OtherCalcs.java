@@ -89,46 +89,46 @@ public class OtherCalcs {
                     while (!time.timerDone()) {
                         d.robot.pusher.setPosition(1.0);
                     }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.0);
-                        d.robot.bucket.setPosition(0.40);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.25);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(1.0);
-                    }
-
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.0);
-                        d.robot.bucket.setPosition(0.40);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while(!time.timerDone()){
-                        d.robot.bucket.setPosition(0.25);
-                    }
-
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(1.0);
-                    }
-                    time.resetTimer();
-                    time.startTimer(1000);
-                    while (!time.timerDone()) {
-                        d.robot.pusher.setPosition(0.0);
-                        d.robot.bucket.setPosition(0.40);
-                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(0.0);
+//                        d.robot.bucket.setPosition(0.40);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while(!time.timerDone()){
+//                        d.robot.bucket.setPosition(0.25);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(1.0);
+//                    }
+//
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(0.0);
+//                        d.robot.bucket.setPosition(0.40);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while(!time.timerDone()){
+//                        d.robot.bucket.setPosition(0.25);
+//                    }
+//
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(1.0);
+//                    }
+//                    time.resetTimer();
+//                    time.startTimer(1000);
+//                    while (!time.timerDone()) {
+//                        d.robot.pusher.setPosition(0.0);
+//                        d.robot.bucket.setPosition(0.40);
+//                    }
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
@@ -168,6 +168,8 @@ public class OtherCalcs {
 //                    }
 //                    d.robot.shooter.setPower(0.0);
                     d.robot.shooterEx.setVelocity(0.0);
+                    d.robot.pusher.setPosition(0.0);
+                    d.robot.bucket.setPosition(0.68);
                     prog = true;
                 }
             }
@@ -183,10 +185,24 @@ public class OtherCalcs {
         return new Interfaces.OtherCalc() {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                if(d.manip.a()) d.robot.intakeEx.setVelocity(1200);
+                if(d.manip.a()) d.robot.intakeEx.setVelocity(1000);
                 else if(d.manip.y()) d.robot.intakeEx.setVelocity(-1600);
                 else d.robot.intake.setPower(0.0);
 
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc Intake(final boolean on){
+        return new Interfaces.OtherCalc() {
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                d.robot.intakeEx.setVelocity(on?1000:0);
             }
 
             @Override

@@ -118,9 +118,9 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("manip ly", d.manip.ls().y);
 //            telemetry.addData("manip rx", d.manip.rs().x);
 //            telemetry.addData("manip ry", d.manip.rs().y);
-            telemetry.addData("x pos", d.wPos.x);
-            telemetry.addData("y pos", d.wPos.y);
-
+//            telemetry.addData("x pos", d.wPos.x);
+//            telemetry.addData("y pos", d.wPos.y);
+            telemetry.addData("right joystick x", d.driver.rs().x);
             //telemetry.addData("goal position", d.goalPosition);
 
 //            telemetry.addData("goal position", d.goalBox);

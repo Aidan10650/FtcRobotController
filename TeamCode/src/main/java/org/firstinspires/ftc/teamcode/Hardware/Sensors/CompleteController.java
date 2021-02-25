@@ -47,8 +47,8 @@ public class CompleteController {
         this.gamepad = gamepad;
         rightStick = new StickConfig(JoystickDeadzoneShape.CIRCULAR,JoystickShape.CIRCULAR,false,true,0.005);
         leftStick = new StickConfig(JoystickDeadzoneShape.CIRCULAR,JoystickShape.CIRCULAR,false,true,0.005);
-        rightTrig = new TrigConfig(0.01,false);
-        leftTrig = new TrigConfig(0.01,false);
+        rightTrig = new TrigConfig(0.001,false);
+        leftTrig = new TrigConfig(0.001,false);
 
     }
 
@@ -141,7 +141,7 @@ public class CompleteController {
     }
 
     public Vector2D rs(){
-        return getControllerJoystick(gamepad.right_stick_x,gamepad.right_stick_y,leftStick);
+        return getControllerJoystick(gamepad.right_stick_x,gamepad.right_stick_y,rightStick);
     }
 
     public double lt(){
