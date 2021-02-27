@@ -112,7 +112,7 @@ public class AutoAuto extends ComplexOp {
                     null,
                     null,
                     OrientationCalcs.lookToPower(),
-                    OtherCalcs.SingleShot(1000),
+                    OtherCalcs.SingleShot(1500),
                     OtherCalcs.GetPowerPositions()
             );
 
@@ -123,7 +123,7 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(-15, 70)),
+                            new Vector2D(-13, 70)),
                     OrientationCalcs.lookToOrientation(0),
                     OtherCalcs.SetWobblePosition(3));
 
@@ -323,7 +323,7 @@ public class AutoAuto extends ComplexOp {
                     null,
                     null,
                     OrientationCalcs.lookToPower(),
-                    OtherCalcs.SingleShot(1000),
+                    OtherCalcs.SingleShot(2000),
                     OtherCalcs.GetPowerPositions()
             );
 

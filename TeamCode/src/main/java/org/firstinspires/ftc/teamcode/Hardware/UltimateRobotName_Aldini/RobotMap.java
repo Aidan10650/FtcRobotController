@@ -19,6 +19,8 @@ public class RobotMap {
 
     public static DcMotor bright, fright, bleft, fleft, shooter, intake, wobble;
 
+    public static int wobbleOffset = 0;
+
     public static DcMotorEx brightEx, frightEx, bleftEx, fleftEx, shooterEx, intakeEx, wobbleEx;
 
     public static Servo bucket, pusher, graber;
@@ -104,9 +106,13 @@ public class RobotMap {
 
         wobble = hw.get(DcMotor.class, "wobble");
         wobble.setTargetPosition(3);
+        wobbleOffset = wobble.getCurrentPosition();
+        wobble.setTargetPosition(wobbleOffset);
         wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         wobbleEx = (DcMotorEx) wobble;
         wobbleEx.setVelocity(500);//400
+
         final double NEW_P = 12;
         final double NEW_I = 6;
         final double NEW_D = 0.2;

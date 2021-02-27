@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.GoalPositionPipeline;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.PowerShotPositionPipeline;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
@@ -242,6 +244,10 @@ public class OtherCalcs {
         };
     }
 
+    // Method to yeet
+    //Very cool aidan
+    //wow
+    //i like this one
     public static Interfaces.OtherCalc Yeetor(){
         return new Interfaces.OtherCalc() {
             @Override
@@ -250,7 +256,7 @@ public class OtherCalcs {
 //                if(d.manip.lb()) d.robot.shooter.setPower(1.0);
 //                else d.robot.shooter.setPower(d.manip.lt());
                 double newVelocity;
-                if(d.manip.ls().y>0.5) newVelocity = 1750.0;
+                if(d.manip.ls().y>0.5) newVelocity = 1740.0;
                 else if (d.manip.ls().y<-0.5) newVelocity = 1500;
                 else newVelocity = 2200*d.manip.lt();
                 d.robot.shooterEx.setVelocity(newVelocity);
@@ -278,9 +284,9 @@ public class OtherCalcs {
                 }
                 if(!d.manip.x()) dx = true;
                 if(i == 0){
-                    d.robot.wobble.setTargetPosition(3);
+                    d.robot.wobble.setTargetPosition(3+d.robot.wobbleOffset);
                 } else if (i == 1) {
-                    d.robot.wobble.setTargetPosition(550);//520//170
+                    d.robot.wobble.setTargetPosition(575+d.robot.wobbleOffset);//550//520//170
                 } //else if (i == 2){
 //                    d.robot.wobble.setTargetPosition(0);
 //                } else {
@@ -316,11 +322,89 @@ public class OtherCalcs {
         };
     }
 
+    public static Interfaces.OtherCalc ResetWobbleButton(){
+        final float time123 = System.currentTimeMillis();
+
+        return new Interfaces.OtherCalc() {
+
+            double prog = 0;
+            boolean run = false;
+            boolean backUp = true;
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                if(d.manip.back() && backUp) {
+                    run = true;
+                    backUp = false;
+                }
+                if(!d.manip.back()) backUp = true;
+                if(run) {
+                    prog += 0.02;
+                    if (prog > 0.5) {
+                        d.robot.wobbleOffset = d.robot.wobble.getCurrentPosition();
+                        d.robot.wobble.setTargetPosition(3 + d.robot.wobbleOffset);
+                        d.robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        //                    d.robot.wobbleEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        //                    while (d.robot.wobbleEx.getCurrentPosition() == 0) {
+                        //                    }
+                        //                    d.robot.wobbleEx.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        run = false;
+                        prog = 0;
+                        //
+                    } else {
+                        d.robot.wobble.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                        d.robot.wobble.setPower(-0.10);
+
+                    }
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc ResetWobble(){
+        final float time123 = System.currentTimeMillis();
+
+        return new Interfaces.OtherCalc() {
+
+            double prog = 0;
+
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                prog += 0.02;
+                if(prog > 0.5) {
+                    d.robot.wobbleOffset = d.robot.wobble.getCurrentPosition();
+                    d.robot.wobble.setTargetPosition(3+d.robot.wobbleOffset);
+                    d.robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    d.robot.wobbleEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    while (d.robot.wobbleEx.getCurrentPosition() == 0) {
+//                    }
+//                    d.robot.wobbleEx.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    prog = 1;
+//
+                }
+                else {
+                    d.robot.wobble.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    d.robot.wobble.setPower(-0.10);
+
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return prog;
+            }
+        };
+    }
+
     public static Interfaces.OtherCalc SetWobblePosition(final int wobblePos){
         return new Interfaces.OtherCalc() {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                d.robot.wobbleEx.setTargetPosition(wobblePos);
+                d.robot.wobbleEx.setTargetPosition(wobblePos+d.robot.wobbleOffset);
             }
 
             @Override
@@ -410,6 +494,7 @@ public class OtherCalcs {
                 d.goalBox = pipeline.getPos();
                 d.hsvValues = pipeline.hsvValues();
                 if(first){
+                    
                     d.robot.yeetCam.setPipeline(pipeline);
                     d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
                     d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -436,7 +521,6 @@ public class OtherCalcs {
             boolean first = true;
             @Override
             public void CalcOther(final Interfaces.MoveData d) {
-
                 d.powerCenter = pipeline.getPowerCenter();
                 if(first){
                     d.robot.yeetCam.setPipeline(pipeline);
