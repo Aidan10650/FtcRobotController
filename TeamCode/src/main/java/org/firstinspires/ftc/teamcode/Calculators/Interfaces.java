@@ -138,6 +138,8 @@ public class Interfaces {
 
         public Vector2D powerCenter = new Vector2D(-1, -1);
 
+        public double powerError = Double.MAX_VALUE;
+
         public Vector2D goalBox = new Vector2D(-1, -1);
 
         public double[] hsvValues = new double[3];

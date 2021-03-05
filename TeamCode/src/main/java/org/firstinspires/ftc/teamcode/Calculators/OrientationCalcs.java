@@ -256,8 +256,9 @@ public class OrientationCalcs {
                     if (Math.abs(localHeading - 5) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
                         //return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
                         if (Math.abs(error) > 70) error = 90 * Math.signum(error);
+                        d.powerError = error;
                         //return Math.signum(error) > 0 ? 0.2 : -0.2;
-                        return error*0.001;
+                        return error*0.0005;
                         //return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);
                     } else if (error<5){
                         return 0.0;

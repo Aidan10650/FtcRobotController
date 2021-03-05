@@ -70,6 +70,24 @@ public class OtherCalcs {
         };
     }
 
+    public static Interfaces.OtherCalc SetBucketPosition(final double position){
+
+        return new Interfaces.OtherCalc(){
+            boolean prog = false;
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return prog?1:0;
+            }
+
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+
+                d.robot.bucket.setPosition(position);
+                prog = true;
+            }
+        };
+    }
+
     public static Interfaces.OtherCalc Shoot(){
         return new Interfaces.OtherCalc() {
             //double myProg = 0.0;
@@ -196,6 +214,22 @@ public class OtherCalcs {
             @Override
             public double myProgress(Interfaces.MoveData d) {
                 return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc Intake(final double speed){
+        return new Interfaces.OtherCalc() {
+            int i = 0;
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                d.robot.intakeEx.setVelocity(speed);
+                i=1;
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return i;
             }
         };
     }
@@ -548,7 +582,7 @@ public class OtherCalcs {
         return new Interfaces.OtherCalc() {
 //            TimeUtil time = new TimeUtil();
 //            TimeUtil time1 = new TimeUtil();
-            double startTime = System.currentTimeMillis();
+            double startTime = System.currentTimeMillis(); //+ 1000;
             boolean prog = false;
             boolean first = true;
             int i = 0;
@@ -556,9 +590,28 @@ public class OtherCalcs {
             public void CalcOther(Interfaces.MoveData d) {
 //                time.startTimer(delay);
                 d.aimToPowerOverride = true;
-
+//                if(first) {
+//                    d.robot.pusher.setPosition(0.0);
+//                    d.robot.bucket.setPosition(0.25);
+//                    d.robot.shooterEx.setVelocity(1550);//1500
+//                    first = false;
+//                }
+//                if(Math.abs(d.powerError) < 20.0 && (System.currentTimeMillis() - startTime) > delay){
+//                    d.robot.pusher.setPosition(1.0);
+//                    if((System.currentTimeMillis() - startTime) > (delay + 500)) {
+//                        startTime = System.currentTimeMillis();
+//                        d.robot.pusher.setPosition(0.0);
+//                        i++;
+//                    }
+//                }
+//                if(i > 2){
+//                    prog = true;
+//                    d.aimToPowerOverride = false;
+//                    d.robot.shooterEx.setVelocity(0.0);
+//                    d.robot.pusher.setPosition(0.0);
+//                }
                 if(i <= 2) {
-                    if (System.currentTimeMillis() - startTime < delay + (first?1500.0:0.0)) {
+                    if (System.currentTimeMillis() - startTime < delay + (first?2000.0:0.0)) {
                         d.robot.pusher.setPosition(0.0);
                         d.robot.bucket.setPosition(0.25);
                         d.robot.shooterEx.setVelocity(1550);//1500
