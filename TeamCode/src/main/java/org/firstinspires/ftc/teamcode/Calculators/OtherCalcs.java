@@ -54,7 +54,7 @@ public class OtherCalcs {
 
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                final double SHOOTPOSITION = 0.25;
+                final double SHOOTPOSITION = 0.24;
                 //d.robot.bucket.setPosition((d.MAXBUCKET-d.MINBUCKET)*((d.manip.ls().y+1.0)/2.0)+d.MINBUCKET);
                 if(d.manip.rb()) d.robot.bucket.setPosition(SHOOTPOSITION);
                 else d.robot.bucket.setPosition(0.68);
@@ -70,7 +70,7 @@ public class OtherCalcs {
         };
     }
 
-    public static Interfaces.OtherCalc SetBucketPosition(final double position){
+    public static Interfaces.OtherCalc SetBucketPositionWithProgress(final double position){
 
         return new Interfaces.OtherCalc(){
             boolean prog = false;
@@ -88,6 +88,86 @@ public class OtherCalcs {
         };
     }
 
+    public static Interfaces.OtherCalc SetBucketPosition(final double position){
+
+        return new Interfaces.OtherCalc(){
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+
+                d.robot.bucket.setPosition(position);
+
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc SetShooterSpeed(final double speed){
+
+        return new Interfaces.OtherCalc(){
+            boolean prog = false;
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return prog?1:0;
+            }
+
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+
+                d.robot.shooterEx.setVelocity(speed);
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc Shooting(final int loop){
+
+        return new Interfaces.OtherCalc(){
+            boolean prog = false;
+            int i = 0;
+            int l = loop;
+            long startTime = System.currentTimeMillis();
+
+            @Override
+            public void CalcOther(Interfaces.MoveData d) {
+                //ASSUMING THAT THE BUCKET AND SHOOTER IS ALREADY IN POSITION BECAUSE OF TIME
+                d.robot.bucket.setPosition(0.24);
+                d.robot.shooterEx.setVelocity(1690);
+                long thisTime = System.currentTimeMillis();
+
+                switch(i){
+                    case 0:
+                        d.robot.pusher.setPosition(1.0);
+                        if((thisTime-startTime)>400) {
+                            i = 1;
+                            startTime = System.currentTimeMillis();
+                        }
+                        break;
+                    case 1:
+                        d.robot.pusher.setPosition(0.0);
+                        if((thisTime-startTime)>600) {
+                            i = 0;
+                            startTime = System.currentTimeMillis();
+                            l--;
+                        }
+
+                        break;
+                }
+                if(l<=0) {
+                    prog = true;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return prog?1:0;
+            }
+        };
+    }
+
     public static Interfaces.OtherCalc Shoot(){
         return new Interfaces.OtherCalc() {
             //double myProg = 0.0;
@@ -96,8 +176,8 @@ public class OtherCalcs {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
                 if(!prog) {
-                    d.robot.shooterEx.setVelocity(1850.0);//1820
-                    d.robot.bucket.setPosition(0.25);
+                    d.robot.shooterEx.setVelocity(1842.0);//1820//1850
+                    d.robot.bucket.setPosition(0.24);
                     time.startTimer(1000);
                     while (!time.timerDone()) ;
                     //d.robot.shooter.setPower(0.547);
@@ -118,7 +198,7 @@ public class OtherCalcs {
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.25);
+//                        d.robot.bucket.setPosition(0.24);
 //                    }
 //                    time.resetTimer();
 //                    time.startTimer(1000);
@@ -135,7 +215,7 @@ public class OtherCalcs {
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.25);
+//                        d.robot.bucket.setPosition(0.24);
 //                    }
 //
 //                    time.resetTimer();
@@ -152,7 +232,7 @@ public class OtherCalcs {
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.25);
+//                        d.robot.bucket.setPosition(0.24);
 //                    }
 //                    time.resetTimer();
 //                    time.startTimer(1000);
@@ -168,7 +248,7 @@ public class OtherCalcs {
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.25);
+//                        d.robot.bucket.setPosition(0.24);
 //                    }
 //                    time.resetTimer();
 //                    time.startTimer(1000);
@@ -184,7 +264,7 @@ public class OtherCalcs {
 //                    time.resetTimer();
 //                    time.startTimer(1000);
 //                    while(!time.timerDone()){
-//                        d.robot.bucket.setPosition(0.25);
+//                        d.robot.bucket.setPosition(0.24);
 //                    }
 //                    d.robot.shooter.setPower(0.0);
                     d.robot.shooterEx.setVelocity(0.0);
@@ -320,7 +400,7 @@ public class OtherCalcs {
                 if(i == 0){
                     d.robot.wobble.setTargetPosition(3+d.robot.wobbleOffset);
                 } else if (i == 1) {
-                    d.robot.wobble.setTargetPosition(575+d.robot.wobbleOffset);//550//520//170
+                    d.robot.wobble.setTargetPosition(585+d.robot.wobbleOffset);//575//550//520//170
                 } //else if (i == 2){
 //                    d.robot.wobble.setTargetPosition(0);
 //                } else {
@@ -577,7 +657,7 @@ public class OtherCalcs {
         };
     }
 
-    public static Interfaces.OtherCalc SingleShot(final double delay){
+    public static Interfaces.OtherCalc SingleShot(final double delay, final double firstDelay){
 
         return new Interfaces.OtherCalc() {
 //            TimeUtil time = new TimeUtil();
@@ -592,7 +672,7 @@ public class OtherCalcs {
                 d.aimToPowerOverride = true;
 //                if(first) {
 //                    d.robot.pusher.setPosition(0.0);
-//                    d.robot.bucket.setPosition(0.25);
+//                    d.robot.bucket.setPosition(0.24);
 //                    d.robot.shooterEx.setVelocity(1550);//1500
 //                    first = false;
 //                }
@@ -611,14 +691,14 @@ public class OtherCalcs {
 //                    d.robot.pusher.setPosition(0.0);
 //                }
                 if(i <= 2) {
-                    if (System.currentTimeMillis() - startTime < delay + (first?2000.0:0.0)) {
+                    if (System.currentTimeMillis() - startTime < delay + (first?firstDelay:0.0)) {
                         d.robot.pusher.setPosition(0.0);
-                        d.robot.bucket.setPosition(0.25);
+                        d.robot.bucket.setPosition(0.24);
                         d.robot.shooterEx.setVelocity(1550);//1500
                     } else {
                         d.robot.pusher.setPosition(1.0);
                     }
-                    if (System.currentTimeMillis() - startTime > delay + 1000.0 + (first?1500.0:0.0)) {
+                    if (System.currentTimeMillis() - startTime > delay + 1000.0 + (first?firstDelay:0.0)) {
                         i++;
                         startTime = System.currentTimeMillis();
                         d.aimToPowerOverride = false;

@@ -87,7 +87,7 @@ public class RobotMap {
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeEx = (DcMotorEx) intake;
-        intakeEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(10, 6, 10, 10));
+        intakeEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(15, 3, 1, 18));
 //        PIDCoefficients pidNewIntake = new PIDCoefficients(10, 6, 50);
 //        shooterEx.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNewIntake);
 

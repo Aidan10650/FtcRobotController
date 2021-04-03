@@ -55,6 +55,7 @@ public class Interfaces {
 
         public double shooterCommand = 0;
         public double bleftCommand = 0;
+        public double intakeCommand = 0;
 
         public boolean aimToPowerOverride = false;
 

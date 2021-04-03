@@ -252,7 +252,7 @@ public class OrientationCalcs {
                     } else if (localHeading < -180.0) {
                         localHeading += 360.0;
                     }
-                    double error = ((720.0 / 2) + 10.0) - d.powerCenter.y;//offset
+                    double error = ((720.0 / 2) + 5.0) - d.powerCenter.y;//offset//5.0 was 10.0
                     if (Math.abs(localHeading - 5) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
                         //return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
                         if (Math.abs(error) > 70) error = 90 * Math.signum(error);

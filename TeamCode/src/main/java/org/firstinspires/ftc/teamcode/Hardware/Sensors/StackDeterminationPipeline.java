@@ -144,7 +144,7 @@ public class StackDeterminationPipeline extends OpenCvPipeline {
             Mat nonCroppedHsv = new Mat();
             Imgproc.cvtColor(input, nonCroppedHsv, Imgproc.COLOR_RGB2HSV);
 
-            Rect rectCrop = new Rect(nonCroppedHsv.width()*3/4, 0, nonCroppedHsv.width()/4, nonCroppedHsv.height());
+            Rect rectCrop = new Rect(nonCroppedHsv.width()*3/4, nonCroppedHsv.height()*3/8, nonCroppedHsv.width()/4, nonCroppedHsv.height()/2);
             Mat hsv = new Mat(nonCroppedHsv, rectCrop);
             Core.inRange(hsv, lower, upper, mask);
             if(mask.height()!=rectCrop.height) input.release();
