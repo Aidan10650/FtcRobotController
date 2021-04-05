@@ -4,8 +4,11 @@ import org.firstinspires.ftc.teamcode.Calculators.*;
 import org.firstinspires.ftc.teamcode.Calculators.Interfaces.MoveData;
 import org.firstinspires.ftc.teamcode.Op.ComplexOp;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+@Disabled
 @TeleOp(name = "ComplexAuto", group = "ftc10650")
 public class ComplexAuto extends ComplexOp {
 

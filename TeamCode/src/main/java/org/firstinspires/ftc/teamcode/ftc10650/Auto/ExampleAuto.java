@@ -4,9 +4,13 @@ import org.firstinspires.ftc.teamcode.Calculators.*;
 import org.firstinspires.ftc.teamcode.Calculators.Interfaces.MoveData;
 import org.firstinspires.ftc.teamcode.Op.ComplexOp;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "ExampleAuto", group = "ftc10650")
+@Disabled
+@Autonomous(name = "ExampleAuto", group = "ftc10650")
 public class ExampleAuto extends ComplexOp {
 
     @Override
@@ -22,15 +26,19 @@ public class ExampleAuto extends ComplexOp {
     public void body() throws InterruptedException {
 
         ComplexMove(
-                SpeedCalcs.SetSpeed(0.7),
-                MotionCalcs.CurveMotion(200,0,90),
-                OrientationCalcs.turnWithJoystick(),
-                OtherCalcs.DistanceStop(OtherCalcs.Side.FRONT,25,5,0.95,1.0));
+                SpeedCalcs.SetProgressSpeed(new SpeedCalcs.ProgressSpeed(0.05, 0.0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                        new SpeedCalcs.ProgressSpeed(0.05, 1.0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
+                MotionCalcs.PointMotion(5,
+                        new Vector2D(0, 10),
+                        new Vector2D(1, 0)),
+//                        new Vector2D(20,40)),
+                OrientationCalcs.lookToOrientation(0));
+//                OtherCalcs.DistanceStop(OtherCalcs.Side.FRONT,25,5,0.95,1.0));
 
-        ComplexMove(
-                SpeedCalcs.SetSpeed(0.3),
-                MotionCalcs.CurveMotion(200,180,270),
-                OrientationCalcs.turnWithJoystick(),
-                OtherCalcs.DistanceStop(OtherCalcs.Side.FRONT,25,5,0.95,1.0));
+//        ComplexMove(
+//                SpeedCalcs.SetSpeed(0.3),
+//                MotionCalcs.CurveMotion(200,180,270),
+//                OrientationCalcs.turnWithJoystick(),
+//                OtherCalcs.DistanceStop(OtherCalcs.Side.FRONT,25,5,0.95,1.0));
     }
 }

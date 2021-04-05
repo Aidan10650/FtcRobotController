@@ -17,6 +17,7 @@ public class ComplexTele extends ComplexOp {
 
     @Override
     public void body() throws InterruptedException {
+        ComplexMove(null, null, null, OtherCalcs.ResetWobble());
         ComplexMove(
 //                SpeedCalcs.SetSpeed(1.0),
                 SpeedCalcs.JoystickSpeed(),
@@ -37,6 +38,7 @@ public class ComplexTele extends ComplexOp {
                 OtherCalcs.Wobble(),
                 OtherCalcs.GetXOfGoal(),
                 OtherCalcs.GetPowerPositions(),
+                OtherCalcs.ResetWobbleButton(),
                 OtherCalcs.Bucket());
 
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
 
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
 import org.firstinspires.ftc.teamcode.Hardware.UltimateRobotName_Aldini.RobotMap;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.CompleteController;
@@ -54,7 +55,9 @@ public class Interfaces {
 
         public double shooterCommand = 0;
         public double bleftCommand = 0;
+        public double intakeCommand = 0;
 
+        public boolean aimToPowerOverride = false;
 
         /**
          * the reason the gyro is not passed as a gyro into move data and instead as a heading is so that all
@@ -130,7 +133,13 @@ public class Interfaces {
 
         public int stackHeight = -1;
 
+
+
+
+
         public Vector2D powerCenter = new Vector2D(-1, -1);
+
+        public double powerError = Double.MAX_VALUE;
 
         public Vector2D goalBox = new Vector2D(-1, -1);
 

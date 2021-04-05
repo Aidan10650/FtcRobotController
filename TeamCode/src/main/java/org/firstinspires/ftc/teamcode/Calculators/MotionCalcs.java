@@ -191,8 +191,8 @@ public class MotionCalcs { //This will always output a power on the x axis of th
                  */
                 CurveData (double arcAngle){
                     this.arcAngle = arcAngle;
-                    this.arcSegCoverDist = Math.tan(Math.toRadians(this.arcAngle/2))*radius;
-                    this.curveLength = Math.abs(Math.PI*2.0*radius*this.arcAngle/360.0);
+                    this.arcSegCoverDist = radius/Math.tan(Math.toRadians(Math.abs(this.arcAngle/2)));//was* radius
+                    this.curveLength = Math.abs(Math.PI*2.0*radius*(180-(Math.abs(this.arcAngle)))/360.0);
                     this.length = curveLength;
                 }
             }
@@ -247,6 +247,7 @@ public class MotionCalcs { //This will always output a power on the x axis of th
                             tempStraight.length -= tempCurve.arcSegCoverDist;
                             tempStraight.endPos = tempCurve.startPos.clone();
                         }
+
                     }
                     totalDist = CalcWorldDists();
                     //so it doesn't loop again //very important

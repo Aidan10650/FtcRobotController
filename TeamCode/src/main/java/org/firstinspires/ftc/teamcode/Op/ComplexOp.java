@@ -57,7 +57,7 @@ public abstract class ComplexOp extends LinearOpMode{
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(Math.abs(d.robot.shooterEx.getVelocity())+":"+Double.toString(d.shooterCommand));
+                String str = String.valueOf(System.currentTimeMillis())+":"+String.valueOf(Math.abs(d.robot.intakeEx.getVelocity())+":"+Double.toString(d.intakeCommand));
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);
@@ -118,9 +118,12 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("manip ly", d.manip.ls().y);
 //            telemetry.addData("manip rx", d.manip.rs().x);
 //            telemetry.addData("manip ry", d.manip.rs().y);
-            telemetry.addData("x pos", d.wPos.x);
-            telemetry.addData("y pos", d.wPos.y);
-
+//            telemetry.addData("x pos", d.wPos.x);
+//            telemetry.addData("y pos", d.wPos.y);
+//            telemetry.addData("right joystick x", d.driver.rs().x);
+//            telemetry.addData("wobble position", d.robot.wobbleEx.getCurrentPosition());
+//            telemetry.addData("offset", d.robot.wobbleOffset);
+            telemetry.addData("power error", d.powerError);
             //telemetry.addData("goal position", d.goalPosition);
 
 //            telemetry.addData("goal position", d.goalBox);

@@ -9,12 +9,17 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.teamcode.Hardware.Sensors.Camera;
 //import org.firstinspires.ftc.teamcode.Hardware.Sensors.NavX;
 //import org.firstinspires.ftc.teamcode.Hardware.Sensors.VexEncoder;
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
+import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class RobotMap {
 
     public static DcMotor bright, fright, bleft, fleft, shooter, intake, wobble;
+
+    public static int wobbleOffset = 0;
 
     public static DcMotorEx brightEx, frightEx, bleftEx, fleftEx, shooterEx, intakeEx, wobbleEx;
 
@@ -27,6 +32,8 @@ public class RobotMap {
     //public static VexEncoder vexCrap;
 
     public static OpenCvInternalCamera yeetCam;
+
+    public final StackDeterminationPipeline pipeline = new StackDeterminationPipeline();
 
     public static HardwareMap hw;
 
@@ -43,7 +50,7 @@ public class RobotMap {
          * it should not be done in a higher level code this is the correct spot
          */
 //PIDCoefficients pidDrive = new PIDCoefficients(50, 10, 0);
-        PIDFCoefficients pidDrive = new PIDFCoefficients(10, 6, 10, 30);
+        PIDFCoefficients pidDrive = new PIDFCoefficients(20, 12, 5, 17.5);//p5 i2 d5 f17.5
 
         bright = hw.get(DcMotor.class, "bright");
         //RUN_USING_ENCODER gives each motor a PID and ensures the motors run at the same speed every time.
@@ -80,26 +87,32 @@ public class RobotMap {
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeEx = (DcMotorEx) intake;
-        intakeEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(10, 6, 10, 10));
+        intakeEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(15, 3, 1, 18));
 //        PIDCoefficients pidNewIntake = new PIDCoefficients(10, 6, 50);
 //        shooterEx.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNewIntake);
 
         shooter = hw.get(DcMotor.class, "shooter");
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setDirection(DcMotorSimple.Direction.REVERSE);
-        final double NEW_P_YEET = 200.0;//5.0345;//4.510599773831102;
-        final double NEW_I_YEET = 15.0;//0.3631;//15.424780949509735;
-        final double NEW_D_YEET = 0.0000;
+        final double NEW_P_YEET = 240.0;//5.0345;//4.510599773831102;
+        final double NEW_I_YEET = 50.0;//0.3631;//15.424780949509735;
+        final double NEW_D_YEET = 10.0000;
         shooterEx  = (DcMotorEx)shooter;
 //        int motorIndexYeet = ((DcMotorEx)shooter).getPortNumber();
+//        shooterEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(2.12, 5.51, 0, 14));
+//        shooterEx.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(0, 0, 0, 14));
         PIDCoefficients pidNewYeet = new PIDCoefficients(NEW_P_YEET, NEW_I_YEET, NEW_D_YEET);
         shooterEx.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNewYeet);
 
         wobble = hw.get(DcMotor.class, "wobble");
         wobble.setTargetPosition(3);
+        wobbleOffset = wobble.getCurrentPosition();
+        wobble.setTargetPosition(wobbleOffset);
         wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         wobbleEx = (DcMotorEx) wobble;
         wobbleEx.setVelocity(500);//400
+
         final double NEW_P = 12;
         final double NEW_I = 6;
         final double NEW_D = 0.2;
@@ -150,6 +163,17 @@ public class RobotMap {
         int cameraMonitorViewId = hw.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hw.appContext.getPackageName());
         yeetCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
+
+
+        yeetCam.setPipeline(pipeline);
+        yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            yeetCam.startStreaming(432, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                        }
+                    });
       //  yeetCam.initVuforia(hw, true);
         //yeetCam = hw.get(WebcamName.class, "yeetCam");
 

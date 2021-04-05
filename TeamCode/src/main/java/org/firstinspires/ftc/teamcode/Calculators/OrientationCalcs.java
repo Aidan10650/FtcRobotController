@@ -244,27 +244,33 @@ public class OrientationCalcs {
         return new Interfaces.OrientationCalc() {
             @Override
             public double CalcOrientation(Interfaces.MoveData d) {
-                if(d.driver.x()) {
+                if(d.driver.x()||d.aimToPowerOverride) {
 
                     double localHeading = d.heading % 360;
                     if (localHeading > 180.0) {
-                        localHeading -= 180.0;
+                        localHeading -= 360.0;
                     } else if (localHeading < -180.0) {
                         localHeading += 360.0;
                     }
-
-                    if (Math.abs(localHeading - 20) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
-                        double error = (720.0 / 2) - d.powerCenter.y + 10;//offset
+                    double error = ((720.0 / 2) + 5.0) - d.powerCenter.y;//offset//5.0 was 10.0
+                    if (Math.abs(localHeading - 5) < 30 && d.powerCenter.y >= 0 && d.powerCenter.x >= 0) {
                         //return Math.sqrt(Math.abs(error)) * 0.01 * Math.signum(error);
-                        if(Math.abs(error) > 70) error = 90*Math.signum(error);
-                        return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);
+                        if (Math.abs(error) > 70) error = 90 * Math.signum(error);
+                        d.powerError = error;
+                        //return Math.signum(error) > 0 ? 0.2 : -0.2;
+                        return error*0.0005;
+                        //return Math.sqrt(Math.abs(error)) * 0.006 * Math.signum(error);
+                    } else if (error<5){
+                        return 0.0;
                     } else {
-                        return (localHeading - 20) * 0.0025;
+                        return (localHeading - 5) * 0.0025;
                     }
                 } else if (d.driver.b()){
                     return lookOrient.CalcOrientation(d);
                 } else {
                     return d.driver.rs().x;
+                    //double i = Math.signum(d.driver.rs().x);
+                    //return Math.pow(Math.abs(d.driver.rs().x), 3)*i;
                 }
             }
 

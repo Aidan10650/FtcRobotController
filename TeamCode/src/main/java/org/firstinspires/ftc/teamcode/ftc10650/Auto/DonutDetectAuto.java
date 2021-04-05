@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.ftc10650.Auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.StackDeterminationPipeline;
@@ -8,6 +9,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
+@Disabled
 @TeleOp(name="Donut Den Drive")
 public class DonutDetectAuto extends LinearOpMode {
     OpenCvInternalCamera phoneCam;
