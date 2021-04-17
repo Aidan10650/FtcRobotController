@@ -259,15 +259,15 @@ public class AutoAuto extends ComplexOp {
                     SpeedCalcs.SetProgressSpeed(
                             new SpeedCalcs.ProgressSpeed(0.2, 0.0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.8, 0.3, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
-                            new SpeedCalcs.ProgressSpeed(0.7, 0.7, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(0.7, 0.6, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2, 1.0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
                     MotionCalcs.PointMotion(0,
                             new Vector2D(0, 20),
                             new Vector2D(-10, 30),
                             new Vector2D(-10, 35)),
-                    OrientationCalcs.lookToOrientation(3),
+                    OrientationCalcs.lookToOrientation(0),
                     OtherCalcs.SetBucketPosition(0.24),
-                    OtherCalcs.SetShooterSpeed(1690)
+                    OtherCalcs.SetShooterSpeed(1705)
             );
 
             ComplexMove(
@@ -290,7 +290,7 @@ public class AutoAuto extends ComplexOp {
 //                            new Vector2D(0,27),
                             new Vector2D(-5, 44),
                             new Vector2D(14, 44),
-                            new Vector2D(14, 117)),
+                            new Vector2D(10, 117)),
                     OrientationCalcs.spinToProgress(
                             new OrientationCalcs.spinProgress(0, 0.3, 0),
                             new OrientationCalcs.spinProgress(0.4, 0.8, 80)),
@@ -301,7 +301,7 @@ public class AutoAuto extends ComplexOp {
 //                            new OrientationCalcs.spinProgress(0, 0.3, 0),
 //                          new OrientationCalcs.spinProgress(0.4, 0.8, 45)),
                     OtherCalcs.SetWobblePosition(550),//60
-                    OtherCalcs.TimeProgress(1000));
+                    OtherCalcs.TimeProgress(800));
 
 //            ComplexMove(
 //                    SpeedCalcs.SetProgressSpeed(
@@ -332,7 +332,7 @@ public class AutoAuto extends ComplexOp {
                     ),
                     MotionCalcs.PointMotion(5,
 //                            new Vector2D(15,45),
-                            new Vector2D(-8, 23)),
+                            new Vector2D(-11, 24)),
                     OrientationCalcs.lookToOrientation(0),
                     OtherCalcs.SetGrabberPosition(true)
             );
@@ -349,7 +349,7 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.2, 1.0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
                     MotionCalcs.PointMotion(5,
 //                            new Vector2D(12,45),
-                            new Vector2D(14, 112)),
+                            new Vector2D(10, 112)),
                     OrientationCalcs.spinToProgress(
 //                            new OrientationCalcs.spinProgress(0, 0.3, 0),
                             new OrientationCalcs.spinProgress(0.3, 0.9, 135)));
@@ -364,8 +364,8 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(1.0,0.5, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
-                    MotionCalcs.PointMotion(5, new Vector2D(-23, 55)),
-                    OrientationCalcs.spinToProgress(new OrientationCalcs.spinProgress(0.2, 0.9, 0.0)),
+                    MotionCalcs.PointMotion(5, new Vector2D(-23, 52)),
+                    OrientationCalcs.spinToProgress(new OrientationCalcs.spinProgress(0.2, 0.9, 3.0)),
                     OtherCalcs.Intake(false)
             );
             ComplexMove(
@@ -383,7 +383,7 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(-15, 70)),
+                            new Vector2D(-15, 65)),
                     OrientationCalcs.lookToOrientation(0),
                     OtherCalcs.SetWobblePosition(3));
 

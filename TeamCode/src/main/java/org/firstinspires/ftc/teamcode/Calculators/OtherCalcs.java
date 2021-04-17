@@ -135,7 +135,7 @@ public class OtherCalcs {
             public void CalcOther(Interfaces.MoveData d) {
                 //ASSUMING THAT THE BUCKET AND SHOOTER IS ALREADY IN POSITION BECAUSE OF TIME
                 d.robot.bucket.setPosition(0.24);
-                d.robot.shooterEx.setVelocity(1690);
+                d.robot.shooterEx.setVelocity(1705);
                 long thisTime = System.currentTimeMillis();
 
                 switch(i){
