@@ -50,6 +50,7 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
         }
     }
         Mat mask = new Mat();
+        Mat nInput = new Mat();
 
         ArrayList<Rect> rectArray = new ArrayList<Rect>();
 
@@ -87,6 +88,8 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
         Rect boundingRect2 = new Rect(-1,-1,-1,-1);
         Rect boundingRect3 = new Rect(-1,-1,-1,-1);
 
+        int fileCounter = 0;
+
 
         void inputToCb(Mat input)
         {
@@ -110,6 +113,7 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                 final Scalar upper = new Scalar(10, 255, 240);
 
                 Mat nHSV = new Mat();
+                nInput = input.clone();
 
                 Imgproc.cvtColor(input, nHSV, Imgproc.COLOR_RGB2HSV);
 
@@ -151,6 +155,8 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
 
                     rectArray.add(b);
                     Imgproc.rectangle(mask, Imgproc.boundingRect(p.second), new Scalar(255, 0, 0), 4);
+                    Imgproc.rectangle(nInput, Imgproc.boundingRect(p.second), new Scalar(0, 255, 0), 10);
+
                     i++;
                     //Limiting to 3 rects
 //                  if (i > 0) break;
@@ -190,9 +196,10 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                 hierarchy.release();
                 nHSV.release();
                 kernel.release();
+//                if(fileCounter<300) saveMatToDisk(nInput, "powershot" + fileCounter++);
                 return mask;
             } catch (Exception e){
-                return null;
+               return null;
             }
         }
 

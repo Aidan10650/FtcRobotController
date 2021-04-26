@@ -113,7 +113,7 @@ public class AutoAuto extends ComplexOp {
                     null,
                     OrientationCalcs.lookToPower(),
                     OtherCalcs.SingleShot(1500, 2000),
-                    OtherCalcs.GetPowerPositions()
+                    OtherCalcs.StartPowerPositionPipeline()
             );
 
             ComplexMove(
@@ -234,7 +234,7 @@ public class AutoAuto extends ComplexOp {
                     null,
                     OrientationCalcs.lookToPower(),
                     OtherCalcs.SingleShot(1500, 2000),
-                    OtherCalcs.GetPowerPositions()
+                    OtherCalcs.StartPowerPositionPipeline()
             );
 
             ComplexMove(
@@ -373,7 +373,7 @@ public class AutoAuto extends ComplexOp {
                     null,
                     OrientationCalcs.lookToPower(),
                     OtherCalcs.SingleShot(1000, 0),
-                    OtherCalcs.GetPowerPositions()
+                    OtherCalcs.StartPowerPositionPipeline()
             );
 
             ComplexMove(

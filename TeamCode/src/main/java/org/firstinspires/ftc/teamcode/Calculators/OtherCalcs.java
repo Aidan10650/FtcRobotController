@@ -629,7 +629,63 @@ public class OtherCalcs {
         };
     }
 
-    public static Interfaces.OtherCalc GetPowerPositions(){
+    public static Interfaces.OtherCalc StartPositionPipeline(){
+        return new Interfaces.OtherCalc() {
+            final GoalPositionPipeline pipeline = new GoalPositionPipeline();
+            boolean first = true;
+            @Override
+            public void CalcOther(final Interfaces.MoveData d) {
+                d.goalBox = pipeline.getPos();
+                if(false){//first){
+                    d.robot.yeetCam.setPipeline(pipeline);
+                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            d.robot.yeetCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240 //1280 was 960
+                        }
+                    });
+                    first = false;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc StartGoalPositionPipeline(){
+        return new Interfaces.OtherCalc() {
+            final GoalPositionPipeline pipeline = new GoalPositionPipeline();
+            boolean first = true;
+            @Override
+            public void CalcOther(final Interfaces.MoveData d) {
+                d.goalBox = pipeline.getPos();
+                if(false){//first){
+                    d.robot.yeetCam.setPipeline(pipeline);
+                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            d.robot.yeetCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240 //1280 was 960
+                        }
+                    });
+                    first = false;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc StartPowerPositionPipeline(){
         return new Interfaces.OtherCalc() {
             final PowerShotPositionPipeline pipeline = new PowerShotPositionPipeline();
             boolean first = true;

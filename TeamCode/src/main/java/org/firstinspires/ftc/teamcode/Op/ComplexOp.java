@@ -123,7 +123,10 @@ public abstract class ComplexOp extends LinearOpMode{
 //            telemetry.addData("right joystick x", d.driver.rs().x);
 //            telemetry.addData("wobble position", d.robot.wobbleEx.getCurrentPosition());
 //            telemetry.addData("offset", d.robot.wobbleOffset);
-            telemetry.addData("power error", d.powerError);
+//            telemetry.addData("goal box", d.goalBox);
+//            telemetry.addData("joystick driver drive x", d.driver.ls().x);
+//            telemetry.addData("gamepad ls x", gamepad1.left_stick_x);
+            telemetry.addData("heading", d.heading);
             //telemetry.addData("goal position", d.goalPosition);
 
 //            telemetry.addData("goal position", d.goalBox);
