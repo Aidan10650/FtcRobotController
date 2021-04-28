@@ -37,8 +37,9 @@ public class ComplexTele extends ComplexOp {
                 OtherCalcs.Intake(),
                 OtherCalcs.Wobble(),
 //                OtherCalcs.GetXOfGoal(),
-                OtherCalcs.StartPowerPositionPipeline(),
-                OtherCalcs.StartGoalPositionPipeline(),
+//                OtherCalcs.StartPowerPositionPipeline(),
+//                OtherCalcs.StartGoalPositionPipeline(),
+                OtherCalcs.StartPositionPipeline(),
                 OtherCalcs.ResetWobbleButton(),
                 OtherCalcs.Bucket());
 

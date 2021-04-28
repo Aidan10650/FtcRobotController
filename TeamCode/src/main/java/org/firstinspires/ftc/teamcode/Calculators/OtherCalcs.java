@@ -590,6 +590,9 @@ public class OtherCalcs {
 //                    });
 //                    first = false;
 //                }
+
+
+
                 d.stackHeight = d.robot.pipeline.getHeight();
                 myProgress = 1.0;
             }
@@ -631,12 +634,14 @@ public class OtherCalcs {
 
     public static Interfaces.OtherCalc StartPositionPipeline(){
         return new Interfaces.OtherCalc() {
-            final GoalPositionPipeline pipeline = new GoalPositionPipeline();
+            final PowerShotPositionPipeline pipeline = new PowerShotPositionPipeline();
             boolean first = true;
             @Override
             public void CalcOther(final Interfaces.MoveData d) {
-                d.goalBox = pipeline.getPos();
-                if(false){//first){
+                d.goalBox = pipeline.getGoalPos();
+                d.powerCenter = pipeline.getPowerCenter();
+                if(first){
+                    d.robot.yeetCam.stopStreaming();
                     d.robot.yeetCam.setPipeline(pipeline);
                     d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
                     d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()

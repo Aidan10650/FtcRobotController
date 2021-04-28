@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Calculators;
 
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.GoalPositionPipeline;
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.PowerShotPositionPipeline;
 import org.firstinspires.ftc.teamcode.Utilities.PID;
 import org.firstinspires.ftc.teamcode.Utilities.TimeUtil;
 import org.firstinspires.ftc.teamcode.Utilities.Vector2D;
@@ -287,7 +289,8 @@ public class OrientationCalcs {
             @Override
             public double CalcOrientation(Interfaces.MoveData d) {
                 if(d.driver.x()||d.aimToPowerOverride) {
-
+                    PowerShotPositionPipeline.processPowershotActive = true;
+                    PowerShotPositionPipeline.processGoalActive = false;
                     double localHeading = d.heading % 360;
                     if (localHeading > 180.0) {
                         localHeading -= 360.0;
@@ -308,6 +311,8 @@ public class OrientationCalcs {
                         return (localHeading - 5) * 0.0025;
                     }
                 } else if (d.driver.b()) {
+                    PowerShotPositionPipeline.processPowershotActive = false;
+                    PowerShotPositionPipeline.processGoalActive = true;
                     double localHeading = d.heading % 360;
                     if (localHeading > 180.0) {
                         localHeading -= 360.0;
@@ -328,6 +333,8 @@ public class OrientationCalcs {
                         return (localHeading +25) * 0.0050;
                     }
                 } else {
+                    PowerShotPositionPipeline.processPowershotActive = false;
+                    PowerShotPositionPipeline.processGoalActive = false;
                     return d.driver.rs().x;
                     //double i = Math.signum(d.driver.rs().x);
                     //return Math.pow(Math.abs(d.driver.rs().x), 3)*i;
