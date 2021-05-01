@@ -50,7 +50,7 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.3,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(12, 85)),
+                            new Vector2D(12, 82)),//12, 85
                     //OrientationCalcs.lookToOrientation(0));
                     OrientationCalcs.spinToProgress(
                             new OrientationCalcs.spinProgress(0.0, 0.9, 0)));
@@ -85,7 +85,7 @@ public class AutoAuto extends ComplexOp {
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
-                            new Vector2D(12, 77)),
+                            new Vector2D(12, 71)),//12,77
                     //OrientationCalcs.lookToOrientation(0));
                     OrientationCalcs.spinToProgress(
                             new OrientationCalcs.spinProgress(0.0, 0.9, 90)));
@@ -111,8 +111,8 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     null,
                     null,
-                    OrientationCalcs.lookToPower(),
-                    OtherCalcs.SingleShot(1500, 2000),
+                    OrientationCalcs.lookTo(),
+                    OtherCalcs.SingleShot(2500, 2000),//1500, 2000
                     OtherCalcs.StartPowerPositionPipeline()
             );
 
@@ -141,7 +141,8 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(//dropping first wobble
                     SpeedCalcs.SetProgressSpeed(
                             new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
-                            new SpeedCalcs.ProgressSpeed(1.0,0.5, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0, 0.3, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0,0.7, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
@@ -158,7 +159,8 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     SpeedCalcs.SetProgressSpeed(
                             new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
-                            new SpeedCalcs.ProgressSpeed(0.6,0.5, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(0.8, 0.3, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(0.8,0.7, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2, 1.0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
@@ -175,7 +177,8 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     SpeedCalcs.SetProgressSpeed(
                             new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
-                            new SpeedCalcs.ProgressSpeed(1.0,0.5, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0, 0.3, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0,0.7, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
@@ -224,7 +227,8 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     SpeedCalcs.SetProgressSpeed(
                             new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
-                            new SpeedCalcs.ProgressSpeed(1.0,0.5, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0, 0.3, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0,0.7, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)),
                     MotionCalcs.PointMotion(5, new Vector2D(-30, 55)),
                     OrientationCalcs.spinToProgress(new OrientationCalcs.spinProgress(0.2, 0.9, 0.0))
@@ -232,15 +236,16 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     null,
                     null,
-                    OrientationCalcs.lookToPower(),
-                    OtherCalcs.SingleShot(1500, 2000),
+                    OrientationCalcs.lookTo(),
+                    OtherCalcs.SingleShot(2000, 2000),//1500, 2000
                     OtherCalcs.StartPowerPositionPipeline()
             );
 
             ComplexMove(
                     SpeedCalcs.SetProgressSpeed(
                             new SpeedCalcs.ProgressSpeed(0.2, 0, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
-                            new SpeedCalcs.ProgressSpeed(1.0,0.5, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0, 0.3, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
+                            new SpeedCalcs.ProgressSpeed(1.0,0.7, SpeedCalcs.ProgressSpeed.timeOrProg.PROG),
                             new SpeedCalcs.ProgressSpeed(0.2,1, SpeedCalcs.ProgressSpeed.timeOrProg.PROG)
                     ),
                     MotionCalcs.PointMotion(5,
@@ -371,7 +376,7 @@ public class AutoAuto extends ComplexOp {
             ComplexMove(
                     null,
                     null,
-                    OrientationCalcs.lookToPower(),
+                    OrientationCalcs.lookTo(),
                     OtherCalcs.SingleShot(1000, 0),
                     OtherCalcs.StartPowerPositionPipeline()
             );

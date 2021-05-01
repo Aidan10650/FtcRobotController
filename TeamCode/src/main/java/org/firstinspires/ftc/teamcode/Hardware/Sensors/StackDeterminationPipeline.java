@@ -164,7 +164,7 @@ public class StackDeterminationPipeline extends OpenCvPipeline {
             MatOfPoint largestContour = new MatOfPoint();
             for (MatOfPoint contour : contours) {
                 double area = Imgproc.contourArea(contour);
-                if (area > maxArea) {
+                if (area > maxArea && area>500.0) {
                     maxArea = area;
                     largestContour = contour;
                 }

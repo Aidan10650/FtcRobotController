@@ -61,11 +61,11 @@ public abstract class ComplexOp extends LinearOpMode{
                 byte[] strBytes = str.getBytes();
                 DatagramPacket DpSend =
                         new DatagramPacket(strBytes, strBytes.length, ip, 10650);
-                try {
-                    ds.send(DpSend);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    ds.send(DpSend);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             }
             //_______________________
 

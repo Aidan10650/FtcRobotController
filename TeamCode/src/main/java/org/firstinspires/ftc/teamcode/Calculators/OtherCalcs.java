@@ -285,7 +285,7 @@ public class OtherCalcs {
         return new Interfaces.OtherCalc() {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                if(d.manip.a()) d.robot.intakeEx.setVelocity(1000);
+                if(d.manip.a()) d.robot.intakeEx.setVelocity(1300);
                 else if(d.manip.y()) d.robot.intakeEx.setVelocity(-1600);
                 else d.robot.intake.setPower(0.0);
 
@@ -370,7 +370,7 @@ public class OtherCalcs {
 //                if(d.manip.lb()) d.robot.shooter.setPower(1.0);
 //                else d.robot.shooter.setPower(d.manip.lt());
                 double newVelocity;
-                if(d.manip.ls().y>0.5) newVelocity = 1740.0;
+                if(d.manip.ls().y>0.5) newVelocity = 1720.0;//1730.0;//1740.0;
                 else if (d.manip.ls().y<-0.5) newVelocity = 1500;
                 else newVelocity = 2200*d.manip.lt();
                 d.robot.shooterEx.setVelocity(newVelocity);

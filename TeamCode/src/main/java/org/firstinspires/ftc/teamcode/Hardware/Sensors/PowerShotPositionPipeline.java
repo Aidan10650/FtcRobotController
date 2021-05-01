@@ -52,7 +52,7 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
         Mat maskPowerShot = new Mat();
         Mat maskGoal = new Mat();
         Point p = new Point(-1, -1);
-        Mat nInput = new Mat();
+//        Mat nInput = new Mat();
 
         ArrayList<Rect> rectArray = new ArrayList<Rect>();
 
@@ -228,7 +228,7 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
                 final Scalar upper = new Scalar(10, 255, 240);
 
                 Mat nHSV = new Mat();
-                nInput = input.clone();
+//                nInput = input.clone();
 
                 Imgproc.cvtColor(input, nHSV, Imgproc.COLOR_RGB2HSV);
 
@@ -270,7 +270,7 @@ public class PowerShotPositionPipeline extends OpenCvPipeline {
 
                     rectArray.add(b);
                     Imgproc.rectangle(maskPowerShot, Imgproc.boundingRect(p.second), new Scalar(255, 0, 0), 4);
-                    Imgproc.rectangle(nInput, Imgproc.boundingRect(p.second), new Scalar(0, 255, 0), 10);
+//                    Imgproc.rectangle(nInput, Imgproc.boundingRect(p.second), new Scalar(0, 255, 0), 10);
 
                     i++;
                     //Limiting to 3 rects
