@@ -26,7 +26,7 @@ public class ComplexTele extends ComplexOp {
                 //OrientationCalcs.turnWithJoystick(),
 //                OrientationCalcs.lookToOrientationUnderJoystick(0),
 //                OrientationCalcs.lookToGoal(),
-                OrientationCalcs.lookToPower(),
+                OrientationCalcs.lookTo(),
                 /*OrientationCalcs.lookToPointTurnWithBumperTurnWithJoystick(
                         "a",
                         new OrientationCalcs.lookProgress(new Vector2D(0,0),0.95),
@@ -36,8 +36,10 @@ public class ComplexTele extends ComplexOp {
                 OtherCalcs.Yeetor(),
                 OtherCalcs.Intake(),
                 OtherCalcs.Wobble(),
-                OtherCalcs.GetXOfGoal(),
-                OtherCalcs.GetPowerPositions(),
+//                OtherCalcs.GetXOfGoal(),
+//                OtherCalcs.StartPowerPositionPipeline(),
+//                OtherCalcs.StartGoalPositionPipeline(),
+                OtherCalcs.StartPositionPipeline(),
                 OtherCalcs.ResetWobbleButton(),
                 OtherCalcs.Bucket());
 

@@ -160,10 +160,12 @@ public class RobotMap {
          */
         //frontRange = hw.get(ModernRoboticsI2cRangeSensor.class, "frontRange");
         //backRange  = hw.get(ModernRoboticsI2cRangeSensor.class, "backRange");
+
+
+
+
         int cameraMonitorViewId = hw.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hw.appContext.getPackageName());
         yeetCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-
-
 
         yeetCam.setPipeline(pipeline);
         yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
@@ -174,8 +176,6 @@ public class RobotMap {
                             yeetCam.startStreaming(432, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
                         }
                     });
-      //  yeetCam.initVuforia(hw, true);
-        //yeetCam = hw.get(WebcamName.class, "yeetCam");
 
     }
 }

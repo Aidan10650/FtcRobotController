@@ -135,7 +135,7 @@ public class OtherCalcs {
             public void CalcOther(Interfaces.MoveData d) {
                 //ASSUMING THAT THE BUCKET AND SHOOTER IS ALREADY IN POSITION BECAUSE OF TIME
                 d.robot.bucket.setPosition(0.24);
-                d.robot.shooterEx.setVelocity(1690);
+                d.robot.shooterEx.setVelocity(1705);
                 long thisTime = System.currentTimeMillis();
 
                 switch(i){
@@ -285,7 +285,7 @@ public class OtherCalcs {
         return new Interfaces.OtherCalc() {
             @Override
             public void CalcOther(Interfaces.MoveData d) {
-                if(d.manip.a()) d.robot.intakeEx.setVelocity(1000);
+                if(d.manip.a()) d.robot.intakeEx.setVelocity(1300);
                 else if(d.manip.y()) d.robot.intakeEx.setVelocity(-1600);
                 else d.robot.intake.setPower(0.0);
 
@@ -370,7 +370,7 @@ public class OtherCalcs {
 //                if(d.manip.lb()) d.robot.shooter.setPower(1.0);
 //                else d.robot.shooter.setPower(d.manip.lt());
                 double newVelocity;
-                if(d.manip.ls().y>0.5) newVelocity = 1740.0;
+                if(d.manip.ls().y>0.5) newVelocity = 1720.0;//1730.0;//1740.0;
                 else if (d.manip.ls().y<-0.5) newVelocity = 1500;
                 else newVelocity = 2200*d.manip.lt();
                 d.robot.shooterEx.setVelocity(newVelocity);
@@ -590,6 +590,9 @@ public class OtherCalcs {
 //                    });
 //                    first = false;
 //                }
+
+
+
                 d.stackHeight = d.robot.pipeline.getHeight();
                 myProgress = 1.0;
             }
@@ -629,7 +632,65 @@ public class OtherCalcs {
         };
     }
 
-    public static Interfaces.OtherCalc GetPowerPositions(){
+    public static Interfaces.OtherCalc StartPositionPipeline(){
+        return new Interfaces.OtherCalc() {
+            final PowerShotPositionPipeline pipeline = new PowerShotPositionPipeline();
+            boolean first = true;
+            @Override
+            public void CalcOther(final Interfaces.MoveData d) {
+                d.goalBox = pipeline.getGoalPos();
+                d.powerCenter = pipeline.getPowerCenter();
+                if(first){
+                    d.robot.yeetCam.stopStreaming();
+                    d.robot.yeetCam.setPipeline(pipeline);
+                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            d.robot.yeetCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240 //1280 was 960
+                        }
+                    });
+                    first = false;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc StartGoalPositionPipeline(){
+        return new Interfaces.OtherCalc() {
+            final GoalPositionPipeline pipeline = new GoalPositionPipeline();
+            boolean first = true;
+            @Override
+            public void CalcOther(final Interfaces.MoveData d) {
+                d.goalBox = pipeline.getPos();
+                if(false){//first){
+                    d.robot.yeetCam.setPipeline(pipeline);
+                    d.robot.yeetCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+                    d.robot.yeetCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+                    {
+                        @Override
+                        public void onOpened() {
+                            d.robot.yeetCam.startStreaming(1280, 720, OpenCvCameraRotation.SIDEWAYS_LEFT);//320 240 //1280 was 960
+                        }
+                    });
+                    first = false;
+                }
+            }
+
+            @Override
+            public double myProgress(Interfaces.MoveData d) {
+                return 0;
+            }
+        };
+    }
+
+    public static Interfaces.OtherCalc StartPowerPositionPipeline(){
         return new Interfaces.OtherCalc() {
             final PowerShotPositionPipeline pipeline = new PowerShotPositionPipeline();
             boolean first = true;
